@@ -13,43 +13,51 @@ export default async function handler(req, res) {
   const CONVERTKIT_FORM_ID = process.env.CONVERTKIT_FORM_ID;
 
   if (!CONVERTKIT_API_KEY) {
-    return res.status(500).json({ error: "Email service not configured" });
+    console.error("CONVERTKIT_API_KEY not set");
+    return res.status(200).json({ success: false, error: "Email service not configured" });
   }
 
-  try {
-    // Subscribe to ConvertKit form
-    const ckUrl = CONVERTKIT_FORM_ID
-      ? `https://api.convertkit.com/v3/forms/${CONVERTKIT_FORM_ID}/subscribe`
-      : `https://api.convertkit.com/v3/tags/${process.env.CONVERTKIT_TAG_ID || "meeting-evaluator"}/subscribe`;
+  if (!CONVERTKIT_FORM_ID) {
+    console.error("CONVERTKIT_FORM_ID not set");
+    return res.status(200).json({ success: false, error: "Form ID not configured" });
+  }
 
-    const response = await fetch(ckUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        api_key: CONVERTKIT_API_KEY,
-        email: email.trim(),
-        first_name: first_name || "",
-        fields: {
-          meeting_score: String(meeting_score || ""),
-          meeting_classification: meeting_classification || "",
-          source: "meeting-evaluator",
-        },
-      }),
-    });
+  console.log("Subscribing:", email, "to form:", CONVERTKIT_FORM_ID);
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error("ConvertKit error:", errText);
-      // Still return success to user — don't block the report download
-      // just because email failed
-      return res.status(200).json({ success: true, warning: "Email service issue" });
+  const urls = [
+    `https://api.convertkit.com/v3/forms/${CONVERTKIT_FORM_ID}/subscribe`,
+    `https://api.kit.com/v3/forms/${CONVERTKIT_FORM_ID}/subscribe`,
+  ];
+
+  const payload = {
+    api_key: CONVERTKIT_API_KEY,
+    email: email.trim(),
+    first_name: first_name || "",
+  };
+
+  for (const url of urls) {
+    try {
+      console.log("Trying:", url);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const responseText = await response.text();
+      console.log("Response status:", response.status, "Body:", responseText);
+
+      if (response.ok) {
+        let data;
+        try { data = JSON.parse(responseText); } catch (e) { data = {}; }
+        console.log("Success! Subscriber added via:", url);
+        return res.status(200).json({ success: true, subscriber: data.subscription?.subscriber?.id });
+      }
+    } catch (err) {
+      console.error("Error with", url, ":", err.message);
     }
-
-    const data = await response.json();
-    return res.status(200).json({ success: true, subscriber: data.subscription?.subscriber?.id });
-  } catch (err) {
-    console.error("Subscribe error:", err);
-    // Graceful degradation — don't block user experience
-    return res.status(200).json({ success: true, warning: "Email service temporarily unavailable" });
   }
+
+  console.error("All subscribe attempts failed");
+  return res.status(200).json({ success: false, error: "Subscribe failed" });
 }
