@@ -527,7 +527,7 @@
     <div id="errorMsg" class="error-msg" style="display:none;"></div>
 
     <!-- Evaluate Button -->
-    <button class="evaluate-btn" id="evalBtn" onclick="evaluate()">Evaluate This Meeting</button>
+    <button class="evaluate-btn" id="evalBtn" onclick="evaluateMeeting()">Evaluate This Meeting</button>
     <div class="loading-text" id="loadingText" style="display:none;">
       Analysing across 5 dimensions: Purpose, Participation, Dialogue, Decisions, Leadership…
     </div>
@@ -627,7 +627,7 @@ function hideResults() {
   currentResult = null;
 }
 
-async function evaluate() {
+async function evaluateMeeting() {
   const transcript = document.getElementById("transcript").value.trim();
   const agenda = document.getElementById("agenda").value.trim();
   const errEl = document.getElementById("errorMsg");
