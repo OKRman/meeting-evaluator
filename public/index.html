@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meeting Effectiveness Evaluator | Earn the Right</title>
+  <meta name="description" content="Score your meetings out of 20 using a research-backed framework from Rogelberg, Lencioni, Edmondson &amp; Meyer. Free AI-powered evaluation — paste your transcript, get your score.">
+  <meta property="og:title" content="How Effective Are Your Meetings? Score Them Free.">
+  <meta property="og:description" content="Paste your meeting transcript. Get scored across 5 research-backed dimensions. Discover what's really going on beneath the surface.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #1a1a1a;
+      --white: #ffffff;
+      --off-white: #f8f7f5;
+      --grey-100: #f2f1ef;
+      --grey-200: #e5e4e0;
+      --grey-300: #d0cfcb;
+      --grey-500: #8a8985;
+      --grey-700: #4a4a48;
+      --red: #c0392b;
+      --red-dark: #a93226;
+      --red-light: #fdf0ef;
+      --green: #27754b;
+      --green-light: #ecf7f0;
+      --amber: #b8860b;
+      --amber-light: #fdf8ec;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--black);
+      background: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      border-bottom: 1px solid var(--grey-200);
+      background: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--black);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--red); }
+    .nav-back {
+      font-size: 13px;
+      color: var(--grey-500);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--black); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--black);
+      padding: 64px 32px 56px;
+      text-align: center;
+    }
+    .hero-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      max-width: 680px;
+      margin: 0 auto 16px;
+    }
+    .hero p {
+      font-size: 16px;
+      color: #a0a0a0;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.65;
+    }
+
+    /* ── CONTAINER ── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── FORM ── */
+    .form-group { margin-bottom: 24px; }
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .form-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .form-optional {
+      font-weight: 400;
+      color: var(--grey-500);
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .sample-btn {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--red);
+      background: none;
+      border: 1px solid var(--red);
+      border-radius: 6px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sample-btn:hover { background: var(--red); color: var(--white); }
+    .sample-btn.loaded { background: var(--green); border-color: var(--green); color: var(--white); pointer-events: none; }
+
+    textarea {
+      width: 100%;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.7;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      color: var(--black);
+      background: var(--white);
+      border: 2px solid var(--grey-200);
+      border-radius: 10px;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    textarea:focus { border-color: var(--red); }
+    textarea::placeholder { color: var(--grey-500); }
+
+    .evaluate-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--red);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: all 0.2s;
+    }
+    .evaluate-btn:hover { background: var(--red-dark); }
+    .evaluate-btn:disabled { background: var(--grey-500); cursor: not-allowed; }
+
+    .loading-text {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--grey-500);
+    }
+
+    .error-msg {
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: var(--red-light);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--red);
+    }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--grey-200); margin: 8px 0 36px; }
+
+    /* ── RESULTS ── */
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .meeting-type-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .type-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--grey-500);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .type-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      background: var(--grey-100);
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+
+    /* Total Score */
+    .total-score {
+      text-align: center;
+      padding: 36px 24px;
+      border-radius: 16px;
+      margin-bottom: 32px;
+    }
+    .total-score.exemplary { background: var(--green-light); border: 2px solid #27754b30; }
+    .total-score.effective { background: #f0f7ec; border: 2px solid #588b3e30; }
+    .total-score.mediocre { background: var(--amber-light); border: 2px solid #b8860b30; }
+    .total-score.dysfunctional { background: #fff3ee; border: 2px solid #d4692030; }
+    .total-score.toxic { background: var(--red-light); border: 2px solid #c0392b30; }
+
+    .score-number {
+      font-size: 60px;
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .score-max { font-size: 24px; font-weight: 400; color: var(--grey-500); }
+    .score-label {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .total-score.exemplary .score-number,
+    .total-score.exemplary .score-label { color: var(--green); }
+    .total-score.effective .score-number,
+    .total-score.effective .score-label { color: #588b3e; }
+    .total-score.mediocre .score-number,
+    .total-score.mediocre .score-label { color: var(--amber); }
+    .total-score.dysfunctional .score-number,
+    .total-score.dysfunctional .score-label { color: #d46920; }
+    .total-score.toxic .score-number,
+    .total-score.toxic .score-label { color: var(--red); }
+
+    /* Dimension gauges */
+    .dimensions-card {
+      padding: 28px;
+      background: var(--white);
+      border-radius: 14px;
+      border: 1px solid var(--grey-200);
+      margin-bottom: 28px;
+    }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+    .dim-row { margin-bottom: 18px; }
+    .dim-row:last-child { margin-bottom: 0; }
+    .dim-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .dim-name { font-size: 13px; font-weight: 600; color: var(--black); }
+    .dim-score-val { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .dim-score-max { font-size: 12px; font-weight: 400; color: var(--grey-500); }
+
+    .gauge-track {
+      height: 8px;
+      background: var(--grey-100);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .gauge-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Evidence cards */
+    .evidence-card {
+      margin-bottom: 14px;
+      padding: 18px 20px;
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--grey-200);
+    }
+    .evidence-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+    .evidence-text, .gap-text {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--grey-700);
+      margin-bottom: 8px;
+    }
+    .evidence-text:last-child, .gap-text:last-child { margin-bottom: 0; }
+    .evidence-label { font-weight: 600; color: var(--green); }
+    .gap-label { font-weight: 600; color: var(--amber); }
+
+    /* Insight cards */
+    .insight-card {
+      padding: 18px 20px;
+      background: var(--off-white);
+      border-radius: 12px;
+      border-left: 4px solid;
+      margin-bottom: 12px;
+    }
+    .insight-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+    .insight-text { font-size: 14px; line-height: 1.65; color: var(--black); }
+
+    /* ── EMAIL GATE ── */
+    .email-gate {
+      margin-top: 32px;
+      padding: 32px 28px;
+      background: var(--black);
+      border-radius: 16px;
+      text-align: center;
+    }
+    .email-gate h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .email-gate p {
+      font-size: 14px;
+      color: #a0a0a0;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .email-form {
+      display: flex;
+      gap: 8px;
+      max-width: 480px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .email-input-wrap { flex: 1; min-width: 200px; }
+    .email-input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 14px;
+      font-family: inherit;
+      border: 2px solid #333;
+      border-radius: 10px;
+      background: #2a2a2a;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .email-input:focus { border-color: var(--red); }
+    .email-input::placeholder { color: #666; }
+
+    .email-submit {
+      padding: 14px 28px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--red);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .email-submit:hover { background: var(--red-dark); }
+    .email-submit:disabled { background: #666; cursor: not-allowed; }
+
+    .email-note {
+      font-size: 11px;
+      color: #666;
+      margin-top: 12px;
+    }
+    .email-success {
+      color: #4caf50;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      margin-top: 36px;
+      padding: 32px 28px;
+      background: var(--off-white);
+      border-radius: 16px;
+      text-align: center;
+      border: 1px solid var(--grey-200);
+    }
+    .cta-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--red);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 10px;
+    }
+    .cta-heading {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--black);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .cta-text {
+      font-size: 14px;
+      color: var(--grey-700);
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 20px;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--black);
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .cta-btn:hover { background: #333; }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 12px;
+      color: var(--grey-500);
+      border-top: 1px solid var(--grey-200);
+    }
+    .footer a { color: var(--grey-500); text-decoration: underline; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      .nav { padding: 14px 16px; }
+      .hero { padding: 48px 20px 40px; }
+      .container { padding: 28px 16px 60px; }
+      .dimensions-card { padding: 20px; }
+      .email-gate { padding: 24px 20px; }
+      .email-form { flex-direction: column; }
+      .email-input-wrap { min-width: unset; }
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .nav, .email-gate, .cta-section, .sample-btn, .evaluate-btn, .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <a href="https://www.earntheright.uk" class="nav-logo">
+      E<span>a</span>RN THE R<span>i</span>GHT
+    </a>
+    <a href="https://www.earntheright.uk" class="nav-back">← Back to earntheright.uk</a>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-label">Free Diagnostic Tool</div>
+    <h1>How Effective Are Your Meetings?</h1>
+    <p>Paste your meeting transcript below. Get scored across five research&#8209;backed dimensions. Discover what's really going on beneath the surface.</p>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container" id="app">
+
+    <!-- Transcript Input -->
+    <div class="form-group">
+      <div class="form-header">
+        <label class="form-label">Meeting Transcript or Notes</label>
+        <button class="sample-btn" id="sampleBtn" onclick="loadSample()">Load sample meeting</button>
+      </div>
+      <textarea id="transcript" rows="10" placeholder="Paste your meeting transcript from Otter.ai, Fireflies, Fathom, Microsoft Copilot, Zoom AI, or any meeting notes..."></textarea>
+    </div>
+
+    <!-- Agenda Input -->
+    <div class="form-group">
+      <div class="form-header">
+        <label class="form-label">Agenda <span class="form-optional">(optional — improves accuracy)</span></label>
+      </div>
+      <textarea id="agenda" rows="4" placeholder="What was the meeting's stated purpose? What decisions needed making? What pre-work was expected?"></textarea>
+    </div>
+
+    <!-- Error -->
+    <div id="errorMsg" class="error-msg" style="display:none;"></div>
+
+    <!-- Evaluate Button -->
+    <button class="evaluate-btn" id="evalBtn" onclick="evaluate()">Evaluate This Meeting</button>
+    <div class="loading-text" id="loadingText" style="display:none;">
+      Analysing across 5 dimensions: Purpose, Participation, Dialogue, Decisions, Leadership…
+    </div>
+
+    <!-- Results (injected by JS) -->
+    <div id="results" style="display:none;"></div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Meeting Effectiveness Framework based on the research of Rogelberg, Lencioni, Edmondson &amp; Meyer</p>
+    <p style="margin-top:4px;">© 2026 <a href="https://www.earntheright.uk">Peter Kerr</a>. All rights reserved.</p>
+  </footer>
+
+<script>
+// ── SAMPLE DATA ──
+const SAMPLE_TRANSCRIPT = `Meeting: Q1 Strategy Review
+Date: February 5, 2026
+Attendees: Sarah (CEO), James (CFO), Priya (CTO), Marcus (VP Sales), Lin (VP Product)
+Duration: 55 minutes
+
+Sarah: Good morning everyone. Let's get started. I want to use today's session to decide whether we're going to proceed with the enterprise expansion or double down on our mid-market position. We've been going back and forth on this for weeks and we need to commit today. The board meets in three weeks and they'll want a clear direction. If we get this wrong, we risk spreading ourselves too thin and losing our core customers. So the stakes are real.
+
+James: I've prepared the financial models for both scenarios. The enterprise play requires roughly £2.4M in additional investment over 18 months, primarily in sales engineering and implementation support. The mid-market doubling down is closer to £800K with faster payback.
+
+Sarah: Thanks James. Before we dive into the numbers, I want to hear from everyone. Priya, what's your honest read on our technical readiness for enterprise?
+
+Priya: Honestly? We're not there yet. Our platform handles mid-market loads well, but enterprise customers will need SOC 2 compliance, better SLA guarantees, and our architecture needs work on multi-tenancy. I'd say we're 6-9 months from being genuinely enterprise-ready. I know that's not what everyone wants to hear.
+
+Sarah: No, that's exactly what I need to hear. Marcus, how does that timeline sit with your pipeline?
+
+Marcus: It's a problem. I've got three enterprise prospects who want to sign in Q2. If we tell them 6-9 months they'll go to CompetitorX. But I have to be honest — our mid-market close rates have been declining for two quarters. We're losing deals on features, not price.
+
+Lin: That's actually my concern too. The feature gaps Marcus is seeing in mid-market are exactly the features enterprise customers would need. So there might be a path where investing in enterprise readiness actually strengthens our mid-market position.
+
+Sarah: That's an interesting framing, Lin. James, does the financial model account for that overlap?
+
+James: Not explicitly. I modelled them as separate scenarios. But Lin's point is valid — maybe 40-50% of the enterprise investment would benefit mid-market anyway.
+
+Sarah: Priya, does that hold technically?
+
+Priya: Yes, broadly. The compliance and security work benefits everyone. The architecture changes are more enterprise-specific but they'd improve reliability across the board.
+
+Marcus: Can I push back on something? I'm worried we're talking ourselves into a comfortable middle ground. My sales team needs a clear story. Are we enterprise or are we mid-market? Trying to be both is how you end up being neither.
+
+Sarah: That's a fair challenge, Marcus. Let me be direct about where I'm leaning and then I want everyone to tell me what's wrong with my thinking. I think we should commit to enterprise readiness as our primary strategic thrust, but stage the investment. Phase 1 is the 40-50% that benefits both segments. Phase 2 is enterprise-specific, triggered by hitting specific mid-market metrics that prove the foundation is solid.
+
+James: The phased approach works financially. Phase 1 is roughly £1.2M, which we can fund from operating cash flow.
+
+Priya: I can work with that timeline. Phase 1 gives us about 4 months of foundational work.
+
+Marcus: I can sell the story if we have a credible enterprise roadmap I can share with prospects. Can we commit to having that by end of February?
+
+Lin: I'll own the roadmap draft. I can have v1 ready by February 20th for team review.
+
+Sarah: Good. So let me summarise what we're committing to. Strategic direction: enterprise-ready through phased investment. Phase 1 budget: £1.2M from operating cash flow, James to confirm by Friday. Enterprise roadmap: Lin owns first draft by February 20th, full team review February 24th. Technical plan: Priya to map the Phase 1 architecture work and present dependencies at next weekly tactical. Marcus: begin positioning with the three enterprise prospects using the phased roadmap once it's approved.
+
+Sarah: Anyone disagree with anything I've just laid out? Speak now or forever hold your peace — and I mean that. If you walk out of here and undermine this in corridor conversations, that's not acceptable.
+
+Priya: I'm comfortable. The phased approach addresses my concern about over-promising.
+
+Marcus: I can commit to this. My concern was about ambiguity and this gives me clarity.
+
+James: Agreed. I'll flag it if the cash flow projections change materially.
+
+Lin: All in. I'll get started on the roadmap today.
+
+Sarah: Excellent. James, please send the board a brief update by end of day summarising our direction. I want them hearing it from us before our formal presentation. Let's end five minutes early — good work everyone.`;
+
+const SAMPLE_AGENDA = `Q1 Strategic Direction Decision Meeting
+Purpose: Decide whether to pursue enterprise expansion or double down on mid-market
+Desired Outcome: Clear strategic commitment with phased investment plan
+Key Questions:
+1. Are we technically ready for enterprise?
+2. Can we financially support the investment?
+3. What does our sales pipeline tell us about timing?
+4. Is there a path that strengthens both segments?
+Pre-work: James to prepare financial scenarios; Priya to assess technical readiness`;
+
+// ── STATE ──
+let currentResult = null;
+
+// ── FUNCTIONS ──
+function loadSample() {
+  document.getElementById("transcript").value = SAMPLE_TRANSCRIPT;
+  document.getElementById("agenda").value = SAMPLE_AGENDA;
+  const btn = document.getElementById("sampleBtn");
+  btn.textContent = "✓ Sample loaded";
+  btn.classList.add("loaded");
+  hideResults();
+}
+
+function hideResults() {
+  document.getElementById("results").style.display = "none";
+  document.getElementById("errorMsg").style.display = "none";
+  currentResult = null;
+}
+
+async function evaluate() {
+  const transcript = document.getElementById("transcript").value.trim();
+  const agenda = document.getElementById("agenda").value.trim();
+  const errEl = document.getElementById("errorMsg");
+  const loadEl = document.getElementById("loadingText");
+  const btn = document.getElementById("evalBtn");
+
+  if (!transcript) {
+    errEl.textContent = "Please paste a meeting transcript or notes.";
+    errEl.style.display = "block";
+    return;
+  }
+
+  errEl.style.display = "none";
+  btn.disabled = true;
+  btn.textContent = "Analysing…";
+  loadEl.style.display = "block";
+  document.getElementById("results").style.display = "none";
+
+  try {
+    const resp = await fetch("/api/evaluate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ transcript, agenda }),
+    });
+
+    if (!resp.ok) {
+      throw new Error("Server error");
+    }
+
+    const data = await resp.json();
+    currentResult = data;
+    renderResults(data);
+  } catch (err) {
+    errEl.textContent = "Analysis failed. Please check your transcript and try again.";
+    errEl.style.display = "block";
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Evaluate This Meeting";
+    loadEl.style.display = "none";
+  }
+}
+
+function getScoreColor(score, max) {
+  const pct = score / max;
+  if (pct >= 0.875) return "var(--green)";
+  if (pct >= 0.625) return "#588b3e";
+  if (pct >= 0.375) return "var(--amber)";
+  if (pct >= 0.25) return "#d46920";
+  return "var(--red)";
+}
+
+function getClassSlug(classification) {
+  return (classification || "mediocre").toLowerCase();
+}
+
+function renderResults(data) {
+  const el = document.getElementById("results");
+  const cls = getClassSlug(data.classification);
+
+  let dimGauges = "";
+  data.dimensions.forEach((d, i) => {
+    const color = getScoreColor(d.score, 4);
+    const pct = (d.score / 4) * 100;
+    dimGauges += `
+      <div class="dim-row">
+        <div class="dim-meta">
+          <span class="dim-name">${d.name}</span>
+          <span class="dim-score-val" style="color:${color}">${d.score.toFixed(1)}<span class="dim-score-max">/4</span></span>
+        </div>
+        <div class="gauge-track">
+          <div class="gauge-fill" style="width:0%;background:${color}" id="gauge-${i}"></div>
+        </div>
+      </div>`;
+  });
+
+  let evidenceCards = "";
+  data.dimensions.forEach(d => {
+    evidenceCards += `
+      <div class="evidence-card">
+        <div class="evidence-card-title">${d.name}</div>
+        <div class="evidence-text"><span class="evidence-label">Evidence:</span> ${d.evidence}</div>
+        <div class="gap-text"><span class="gap-label">Gap:</span> ${d.gap}</div>
+      </div>`;
+  });
+
+  el.innerHTML = `
+    <div class="divider"></div>
+
+    <div class="result-header">
+      <div class="meeting-type-badge">
+        <span class="type-label">Classification</span>
+        <span class="type-value">${data.meeting_type}</span>
+      </div>
+    </div>
+
+    <div class="total-score ${cls}">
+      <div class="score-number" id="scoreCounter">0<span class="score-max">/20</span></div>
+      <div class="score-label">${data.classification}</div>
+    </div>
+
+    <div class="dimensions-card">
+      <div class="section-title">Dimension Scores</div>
+      ${dimGauges}
+    </div>
+
+    <div class="section-title">Evidence &amp; Gaps</div>
+    ${evidenceCards}
+
+    <div class="section-title" style="margin-top:28px;">Diagnostic Insights</div>
+    <div class="insight-card" style="border-color:var(--green);">
+      <div class="insight-title" style="color:var(--green);">★ Top Strength</div>
+      <div class="insight-text">${data.top_strength}</div>
+    </div>
+    <div class="insight-card" style="border-color:var(--red);">
+      <div class="insight-title" style="color:var(--red);">◆ Priority Intervention</div>
+      <div class="insight-text">${data.priority_intervention}</div>
+    </div>
+    <div class="insight-card" style="border-color:var(--black);">
+      <div class="insight-title" style="color:var(--black);">◈ Root Cause Diagnosis</div>
+      <div class="insight-text">${data.root_cause_diagnosis}</div>
+    </div>
+    ${data.cultural_note ? `
+    <div class="insight-card" style="border-color:var(--grey-500);">
+      <div class="insight-title" style="color:var(--grey-500);">◎ Cultural Observation</div>
+      <div class="insight-text">${data.cultural_note}</div>
+    </div>` : ""}
+
+    <!-- EMAIL GATE -->
+    <div class="email-gate" id="emailGate">
+      <h3>Download Your Full Report</h3>
+      <p>Enter your email to receive a detailed PDF-ready report with your scores, evidence, and diagnostic insights.</p>
+      <div class="email-form">
+        <div class="email-input-wrap">
+          <input type="text" class="email-input" id="emailName" placeholder="First name (optional)">
+        </div>
+        <div class="email-input-wrap">
+          <input type="email" class="email-input" id="emailAddr" placeholder="Your work email" required>
+        </div>
+        <button class="email-submit" id="emailSubmitBtn" onclick="submitEmail()">Get Report</button>
+      </div>
+      <div class="email-note">No spam. Just your report and occasional insights on organisational health.</div>
+      <div id="emailResult" style="margin-top:12px;"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <div class="cta-label">Beyond the Score</div>
+      <div class="cta-heading">Bad meetings are a symptom, not the cause.</div>
+      <div class="cta-text">
+        This evaluation identifies what's visible. The real transformation comes from addressing
+        the organisational health beneath it — building trust, embracing productive conflict,
+        and developing leaders who model the right behaviours.
+      </div>
+      <a href="https://www.earntheright.uk/set-up-a-meeting" class="cta-btn">Set Up a Conversation</a>
+    </div>
+  `;
+
+  el.style.display = "block";
+
+  // Animate score counter
+  setTimeout(() => {
+    let count = 0;
+    const target = data.total_score;
+    const counter = document.getElementById("scoreCounter");
+    const step = () => {
+      count += 0.4;
+      if (count >= target) {
+        counter.innerHTML = `${target}<span class="score-max">/20</span>`;
+        return;
+      }
+      counter.innerHTML = `${Math.round(count * 10) / 10}<span class="score-max">/20</span>`;
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, 200);
+
+  // Animate gauges
+  data.dimensions.forEach((d, i) => {
+    setTimeout(() => {
+      const gauge = document.getElementById(`gauge-${i}`);
+      if (gauge) gauge.style.width = `${(d.score / 4) * 100}%`;
+    }, 300 + i * 120);
+  });
+
+  // Scroll to results
+  setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+}
+
+async function submitEmail() {
+  const email = document.getElementById("emailAddr").value.trim();
+  const name = document.getElementById("emailName").value.trim();
+  const resultEl = document.getElementById("emailResult");
+  const btn = document.getElementById("emailSubmitBtn");
+
+  if (!email || !email.includes("@")) {
+    resultEl.innerHTML = '<span style="color:var(--red);font-size:13px;">Please enter a valid email address.</span>';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Sending…";
+
+  try {
+    await fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        first_name: name,
+        meeting_score: currentResult?.total_score,
+        meeting_classification: currentResult?.classification,
+      }),
+    });
+
+    // Generate and download report regardless of subscribe success
+    downloadReport();
+
+    // Replace email form with success message
+    document.getElementById("emailGate").innerHTML = `
+      <div class="email-success" style="padding:20px;">
+        <div style="font-size:28px;margin-bottom:12px;">✓</div>
+        <h3 style="color:var(--white);margin-bottom:8px;">Report Downloaded</h3>
+        <p style="color:#a0a0a0;font-size:14px;">Open the HTML file in your browser, then use Print → Save as PDF for a polished report.</p>
+        <button onclick="downloadReport()" style="margin-top:16px;padding:12px 24px;background:var(--red);color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;">Download Again</button>
+      </div>
+    `;
+  } catch (err) {
+    resultEl.innerHTML = '<span style="color:var(--red);font-size:13px;">Something went wrong. Please try again.</span>';
+    btn.disabled = false;
+    btn.textContent = "Get Report";
+  }
+}
+
+function downloadReport() {
+  if (!currentResult) return;
+  const data = currentResult;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+
+  const getColor = (s) => s >= 3.5 ? "#27754b" : s >= 2.5 ? "#588b3e" : s >= 1.5 ? "#b8860b" : "#c0392b";
+  const getBg = (s) => s >= 3.5 ? "#ecf7f0" : s >= 2.5 ? "#f0f7ec" : s >= 1.5 ? "#fdf8ec" : "#fdf0ef";
+  const totalColor = data.total_score >= 17 ? "#27754b" : data.total_score >= 13 ? "#588b3e" : data.total_score >= 9 ? "#b8860b" : data.total_score >= 5 ? "#d46920" : "#c0392b";
+  const totalBg = data.total_score >= 17 ? "#ecf7f0" : data.total_score >= 13 ? "#f0f7ec" : data.total_score >= 9 ? "#fdf8ec" : data.total_score >= 5 ? "#fff3ee" : "#fdf0ef";
+
+  const dimRows = data.dimensions.map(d => `
+    <tr>
+      <td style="padding:12px 16px;font-weight:600;border-bottom:1px solid #e5e4e0;">${d.name}</td>
+      <td style="padding:12px 16px;text-align:center;border-bottom:1px solid #e5e4e0;">
+        <span style="display:inline-block;background:${getBg(d.score)};color:${getColor(d.score)};font-weight:700;padding:4px 14px;border-radius:20px;font-size:16px;">${d.score.toFixed(1)}/4</span>
+      </td>
+    </tr>`).join("");
+
+  const evidenceBlocks = data.dimensions.map(d => `
+    <div style="margin-bottom:18px;padding:18px 20px;background:#f8f7f5;border-radius:10px;border:1px solid #e5e4e0;">
+      <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:10px;">${d.name} <span style="color:${getColor(d.score)};margin-left:8px;">${d.score.toFixed(1)}/4</span></div>
+      <div style="font-size:13px;line-height:1.7;color:#4a4a48;margin-bottom:8px;"><strong style="color:#27754b;">Evidence:</strong> ${d.evidence}</div>
+      <div style="font-size:13px;line-height:1.7;color:#4a4a48;"><strong style="color:#b8860b;">Gap:</strong> ${d.gap}</div>
+    </div>`).join("");
+
+  const html = `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Meeting Effectiveness Report — Earn the Right</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @media print { body { -webkit-print-color-adjust:exact;print-color-adjust:exact; } .no-print { display:none!important; } .page-break { page-break-before:always; } }
+  body { font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#1a1a1a;margin:0;padding:0;background:#fff;-webkit-font-smoothing:antialiased; }
+</style></head><body>
+<div style="background:#1a1a1a;padding:40px 48px 36px;border-bottom:4px solid #c0392b;">
+  <div style="font-size:15px;font-weight:800;color:#fff;letter-spacing:0.08em;text-transform:uppercase;">E<span style="color:#c0392b;">a</span>RN THE R<span style="color:#c0392b;">i</span>GHT</div>
+  <div style="font-size:11px;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:0.2em;margin-top:20px;margin-bottom:8px;">Meeting Intelligence Report</div>
+  <h1 style="font-size:28px;font-weight:800;color:#fff;margin:0;line-height:1.2;">Meeting Effectiveness Evaluation</h1>
+  <p style="font-size:13px;color:#a0a0a0;margin-top:10px;">${dateStr}</p>
+</div>
+<div style="max-width:680px;margin:0 auto;padding:36px 48px 60px;">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
+    <span style="font-size:11px;font-weight:700;color:#8a8985;text-transform:uppercase;letter-spacing:0.12em;">Classification</span>
+    <span style="font-size:13px;font-weight:700;color:#1a1a1a;background:#f2f1ef;padding:5px 14px;border-radius:20px;">${data.meeting_type}</span>
+  </div>
+  <div style="text-align:center;padding:32px 24px;background:${totalBg};border-radius:16px;border:2px solid ${totalColor}30;margin-bottom:32px;">
+    <div style="font-size:56px;font-weight:800;color:${totalColor};line-height:1;font-variant-numeric:tabular-nums;">${data.total_score}<span style="font-size:24px;font-weight:400;color:#8a8985;">/20</span></div>
+    <div style="margin-top:8px;font-size:14px;font-weight:700;color:${totalColor};text-transform:uppercase;letter-spacing:0.15em;">${data.classification}</div>
+  </div>
+  <h2 style="font-size:13px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Dimension Scores</h2>
+  <table style="width:100%;border-collapse:collapse;margin-bottom:32px;border:1px solid #e5e4e0;border-radius:10px;overflow:hidden;">
+    <thead><tr style="background:#1a1a1a;"><th style="padding:12px 16px;text-align:left;color:#fff;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Dimension</th><th style="padding:12px 16px;text-align:center;color:#fff;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Score</th></tr></thead>
+    <tbody>${dimRows}</tbody>
+  </table>
+  <div class="page-break"></div>
+  <h2 style="font-size:13px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Evidence &amp; Gaps</h2>
+  ${evidenceBlocks}
+  <h2 style="font-size:13px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.08em;margin-top:36px;margin-bottom:16px;">Diagnostic Insights</h2>
+  <div style="padding:18px 20px;background:#f8f7f5;border-radius:10px;border-left:4px solid #27754b;margin-bottom:12px;">
+    <div style="font-size:12px;font-weight:700;color:#27754b;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">★ Top Strength</div>
+    <div style="font-size:14px;line-height:1.65;">${data.top_strength}</div>
+  </div>
+  <div style="padding:18px 20px;background:#f8f7f5;border-radius:10px;border-left:4px solid #c0392b;margin-bottom:12px;">
+    <div style="font-size:12px;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">◆ Priority Intervention</div>
+    <div style="font-size:14px;line-height:1.65;">${data.priority_intervention}</div>
+  </div>
+  <div style="padding:18px 20px;background:#f8f7f5;border-radius:10px;border-left:4px solid #1a1a1a;margin-bottom:12px;">
+    <div style="font-size:12px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">◈ Root Cause Diagnosis</div>
+    <div style="font-size:14px;line-height:1.65;">${data.root_cause_diagnosis}</div>
+  </div>
+  ${data.cultural_note ? `<div style="padding:18px 20px;background:#f8f7f5;border-radius:10px;border-left:4px solid #8a8985;margin-bottom:12px;">
+    <div style="font-size:12px;font-weight:700;color:#8a8985;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">◎ Cultural Observation</div>
+    <div style="font-size:14px;line-height:1.65;">${data.cultural_note}</div>
+  </div>` : ""}
+  <div style="margin-top:36px;padding:20px 24px;background:#f2f1ef;border-radius:10px;border:1px solid #e5e4e0;">
+    <div style="font-size:12px;font-weight:700;color:#8a8985;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;">Scoring Reference</div>
+    <div style="font-size:12px;line-height:1.8;color:#4a4a48;">
+      <strong style="color:#27754b;">17–20 Exemplary</strong> — Meeting is a competitive advantage<br>
+      <strong style="color:#588b3e;">13–16 Effective</strong> — Solid, targeted improvements needed<br>
+      <strong style="color:#b8860b;">9–12 Mediocre</strong> — Significant time wasted, structural fixes needed<br>
+      <strong style="color:#d46920;">5–8 Dysfunctional</strong> — Symptom of deeper team dysfunction<br>
+      <strong style="color:#c0392b;">0–4 Toxic</strong> — Cancel and rebuild
+    </div>
+  </div>
+  <div style="margin-top:36px;padding-top:20px;border-top:1px solid #e5e4e0;text-align:center;">
+    <div style="font-size:11px;color:#8a8985;line-height:1.6;">
+      Meeting Effectiveness Framework — Rogelberg, Lencioni, Edmondson &amp; Meyer<br>
+      <strong>Bad meetings are a symptom, not the cause.</strong> The real work is building organisational health.<br><br>
+      <a href="https://www.earntheright.uk" style="color:#c0392b;text-decoration:none;font-weight:600;">earntheright.uk</a>
+    </div>
+  </div>
+  <div class="no-print" style="text-align:center;margin-top:28px;">
+    <button onclick="window.print()" style="padding:14px 32px;background:#c0392b;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">Save as PDF (Print → Save as PDF)</button>
+  </div>
+</div></body></html>`;
+
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `Meeting-Effectiveness-Report-${new Date().toISOString().slice(0,10)}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+
+</body>
+</html>
