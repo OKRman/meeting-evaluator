@@ -1085,7 +1085,7 @@
 
   <div id="errorMsg" class="error-msg" style="display:none;"></div>
 
-  <button class="eval-btn" id="evalBtn" onclick="evaluate()">Evaluate This Meeting</button>
+  <button class="eval-btn" id="evalBtn" onclick="evaluateMeeting()">Evaluate This Meeting</button>
   <div class="loading-txt" id="loadingTxt" style="display:none;">
     Analysing · Purpose · Participation · Dialogue · Decisions · Leadership
   </div>
@@ -1191,7 +1191,7 @@ function loadSample() {
 }
 
 // ── EVALUATE ─────────────────────────────────────────────────────────────────
-async function evaluate() {
+async function evaluateMeeting() {
   const tr = document.getElementById('transcript').value.trim();
   const ag = document.getElementById('agenda').value.trim();
   const err = document.getElementById('errorMsg');
