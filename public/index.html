@@ -106,6 +106,85 @@
       padding: 40px 24px 80px;
     }
 
+    /* ── MEETING DETAILS CARD ── */
+    .meeting-details-card {
+      background: var(--off-white);
+      border: 1px solid var(--grey-200);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+    .meeting-details-header {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .meeting-details-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .meeting-details-optional {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--grey-500);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .meeting-details-desc {
+      font-size: 12px;
+      color: var(--grey-500);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+    .details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .detail-field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--grey-700);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .detail-input, .detail-select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      color: var(--black);
+      background: var(--white);
+      border: 1.5px solid var(--grey-200);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .detail-input:focus, .detail-select:focus { border-color: var(--red); }
+    .detail-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8985' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+      cursor: pointer;
+    }
+    .cost-note {
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--grey-500);
+      line-height: 1.5;
+    }
+    .cost-note a { color: var(--grey-500); text-decoration: underline; }
+
     /* ── FORM ── */
     .form-group { margin-bottom: 24px; }
     .form-header {
@@ -228,7 +307,7 @@
       text-align: center;
       padding: 36px 24px;
       border-radius: 16px;
-      margin-bottom: 32px;
+      margin-bottom: 20px;
     }
     .total-score.exemplary { background: var(--green-light); border: 2px solid #27754b30; }
     .total-score.effective { background: #f0f7ec; border: 2px solid #588b3e30; }
@@ -261,6 +340,110 @@
     .total-score.dysfunctional .score-label { color: #d46920; }
     .total-score.toxic .score-number,
     .total-score.toxic .score-label { color: var(--red); }
+
+    /* ── COST CARD ── */
+    .cost-card {
+      background: var(--black);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-bottom: 28px;
+    }
+    .cost-card-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--grey-500);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 16px;
+    }
+    .cost-headline {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .cost-amount {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .cost-context {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .cost-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .cost-metric {
+      background: #2a2a2a;
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .cost-metric-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 6px;
+    }
+    .cost-metric-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+    }
+    .cost-metric-sub {
+      font-size: 11px;
+      color: #666;
+      margin-top: 2px;
+    }
+    .cost-efficiency-bar {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #2a2a2a;
+    }
+    .efficiency-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .efficiency-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .efficiency-pct {
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .efficiency-track {
+      height: 6px;
+      background: #2a2a2a;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .efficiency-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cost-basis {
+      margin-top: 12px;
+      font-size: 11px;
+      color: #555;
+      line-height: 1.5;
+    }
 
     /* Dimension gauges */
     .dimensions-card {
@@ -477,6 +660,9 @@
       .email-gate { padding: 24px 20px; }
       .email-form { flex-direction: column; }
       .email-input-wrap { min-width: unset; }
+      .details-grid { grid-template-columns: 1fr; }
+      .cost-metrics { grid-template-columns: 1fr; }
+      .cost-card { padding: 20px; }
     }
 
     /* ── PRINT ── */
@@ -505,6 +691,46 @@
 
   <!-- Main Content -->
   <main class="container" id="app">
+
+    <!-- Meeting Details (Cost Calculator Inputs) -->
+    <div class="meeting-details-card">
+      <div class="meeting-details-header">
+        <div class="meeting-details-title">About This Meeting</div>
+        <div class="meeting-details-optional">Optional</div>
+      </div>
+      <p class="meeting-details-desc">Used to calculate what this meeting actually cost your organisation alongside the quality score.</p>
+      <div class="details-grid">
+        <div class="detail-field">
+          <label for="attendees">Number of Attendees</label>
+          <input class="detail-input" type="number" id="attendees" value="6" min="1" max="100" placeholder="e.g. 6">
+        </div>
+        <div class="detail-field">
+          <label for="salaryBand">Average Annual Salary</label>
+          <select class="detail-select" id="salaryBand">
+            <option value="27500">Under £30,000</option>
+            <option value="40000">£30,000 – £50,000</option>
+            <option value="62500" selected>£50,000 – £75,000</option>
+            <option value="87500">£75,000 – £100,000</option>
+            <option value="125000">£100,000 – £150,000</option>
+            <option value="175000">£150,000+</option>
+          </select>
+        </div>
+        <div class="detail-field">
+          <label for="durationMins">Meeting Duration (minutes)</label>
+          <input class="detail-input" type="number" id="durationMins" value="60" min="5" max="480" placeholder="e.g. 60">
+        </div>
+        <div class="detail-field">
+          <label for="prepTime">Prep Time Per Person</label>
+          <select class="detail-select" id="prepTime">
+            <option value="0">No prep time</option>
+            <option value="15" selected>15 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="60">60 minutes</option>
+          </select>
+        </div>
+      </div>
+      <p class="cost-note">Includes a 1.3× employer overhead multiplier (NI, benefits, office costs). Salary costs based on 1,820 working hours/year.</p>
+    </div>
 
     <!-- Transcript Input -->
     <div class="form-group">
@@ -610,6 +836,47 @@ Pre-work: James to prepare financial scenarios; Priya to assess technical readin
 
 // ── STATE ──
 let currentResult = null;
+let currentCostData = null;
+
+// ── COST CALCULATION ──
+const OVERHEAD_MULTIPLIER = 1.3;
+const WORKING_HOURS_PER_YEAR = 1820;
+
+function getCostData() {
+  const attendees = parseInt(document.getElementById("attendees").value) || 6;
+  const salary = parseInt(document.getElementById("salaryBand").value) || 62500;
+  const durationMins = parseInt(document.getElementById("durationMins").value) || 60;
+  const prepMins = parseInt(document.getElementById("prepTime").value) || 0;
+  const salaryLabel = document.getElementById("salaryBand").options[document.getElementById("salaryBand").selectedIndex].text;
+
+  const hourlyRatePerPerson = (salary * OVERHEAD_MULTIPLIER) / WORKING_HOURS_PER_YEAR;
+  const meetingCost = hourlyRatePerPerson * (durationMins / 60) * attendees;
+  const prepCost = hourlyRatePerPerson * (prepMins / 60) * attendees;
+  const totalCost = meetingCost + prepCost;
+  const annualCostWeekly = totalCost * 52;
+  const annualCostMonthly = totalCost * 12;
+
+  return {
+    attendees,
+    salary,
+    salaryLabel,
+    durationMins,
+    prepMins,
+    hourlyRatePerPerson,
+    meetingCost,
+    prepCost,
+    totalCost,
+    annualCostWeekly,
+    annualCostMonthly
+  };
+}
+
+function formatCurrency(amount) {
+  if (amount >= 1000) {
+    return "£" + Math.round(amount).toLocaleString("en-GB");
+  }
+  return "£" + Math.round(amount);
+}
 
 // ── FUNCTIONS ──
 function loadSample() {
@@ -625,6 +892,7 @@ function hideResults() {
   document.getElementById("results").style.display = "none";
   document.getElementById("errorMsg").style.display = "none";
   currentResult = null;
+  currentCostData = null;
 }
 
 async function evaluateMeeting() {
@@ -639,6 +907,9 @@ async function evaluateMeeting() {
     errEl.style.display = "block";
     return;
   }
+
+  // Capture cost data at time of evaluation
+  currentCostData = getCostData();
 
   errEl.style.display = "none";
   btn.disabled = true;
@@ -659,7 +930,7 @@ async function evaluateMeeting() {
 
     const data = await resp.json();
     currentResult = data;
-    renderResults(data);
+    renderResults(data, currentCostData);
   } catch (err) {
     errEl.textContent = "Analysis failed. Please check your transcript and try again.";
     errEl.style.display = "block";
@@ -684,7 +955,48 @@ function getClassSlug(classification) {
   return (classification || "mediocre").toLowerCase();
 }
 
-function renderResults(data) {
+function renderCostCard(data, cost) {
+  const efficiencyPct = Math.round((data.total_score / 20) * 100);
+  const wastedCost = cost.totalCost * (1 - data.total_score / 20);
+  const efficiencyColor = efficiencyPct >= 65 ? "#27754b" : efficiencyPct >= 45 ? "#b8860b" : "#c0392b";
+
+  let prepNote = cost.prepMins > 0
+    ? ` + ${cost.attendees} × ${cost.prepMins} min prep`
+    : "";
+
+  return `
+    <div class="cost-card">
+      <div class="cost-card-label">💷 Meeting Cost</div>
+      <div class="cost-headline">
+        <div class="cost-amount" id="costCounter">${formatCurrency(cost.totalCost)}</div>
+      </div>
+      <div class="cost-context">${cost.attendees} attendees · ${cost.durationMins} min${prepNote} · avg ${cost.salaryLabel}</div>
+      <div class="cost-metrics">
+        <div class="cost-metric">
+          <div class="cost-metric-label">If weekly (annual)</div>
+          <div class="cost-metric-value">${formatCurrency(cost.annualCostWeekly)}</div>
+          <div class="cost-metric-sub">52 meetings per year</div>
+        </div>
+        <div class="cost-metric">
+          <div class="cost-metric-label">Estimated value lost</div>
+          <div class="cost-metric-value" style="color:#e87c73;">${formatCurrency(wastedCost)}</div>
+          <div class="cost-metric-sub">based on ${data.total_score}/20 quality score</div>
+        </div>
+      </div>
+      <div class="cost-efficiency-bar">
+        <div class="efficiency-label">
+          <span class="efficiency-text">Cost Efficiency</span>
+          <span class="efficiency-pct" style="color:${efficiencyColor};">${efficiencyPct}%</span>
+        </div>
+        <div class="efficiency-track">
+          <div class="efficiency-fill" id="efficiencyFill" style="width:0%;background:${efficiencyColor};"></div>
+        </div>
+        <div class="cost-basis">Score of ${data.total_score}/20 · ${efficiencyPct}% of the value a well-run meeting of this size could deliver</div>
+      </div>
+    </div>`;
+}
+
+function renderResults(data, cost) {
   const el = document.getElementById("results");
   const cls = getClassSlug(data.classification);
 
@@ -729,6 +1041,8 @@ function renderResults(data) {
       <div class="score-label">${data.classification}</div>
     </div>
 
+    ${cost ? renderCostCard(data, cost) : ""}
+
     <div class="dimensions-card">
       <div class="section-title">Dimension Scores</div>
       ${dimGauges}
@@ -759,7 +1073,7 @@ function renderResults(data) {
     <!-- EMAIL GATE -->
     <div class="email-gate" id="emailGate">
       <h3>Download Your Full Report</h3>
-      <p>Enter your email to receive a detailed PDF-ready report with your scores, evidence, and diagnostic insights.</p>
+      <p>Enter your email to receive a detailed PDF-ready report with your scores, cost analysis, and diagnostic insights.</p>
       <div class="email-form">
         <div class="email-input-wrap">
           <input type="text" class="email-input" id="emailName" placeholder="First name (optional)">
@@ -813,6 +1127,14 @@ function renderResults(data) {
     }, 300 + i * 120);
   });
 
+  // Animate efficiency bar
+  if (cost) {
+    setTimeout(() => {
+      const fill = document.getElementById("efficiencyFill");
+      if (fill) fill.style.width = `${Math.round((data.total_score / 20) * 100)}%`;
+    }, 500);
+  }
+
   // Scroll to results
   setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
 }
@@ -840,6 +1162,7 @@ async function submitEmail() {
         first_name: name,
         meeting_score: currentResult?.total_score,
         meeting_classification: currentResult?.classification,
+        meeting_cost: currentCostData?.totalCost ? Math.round(currentCostData.totalCost) : null,
       }),
     });
 
@@ -865,6 +1188,7 @@ async function submitEmail() {
 function downloadReport() {
   if (!currentResult) return;
   const data = currentResult;
+  const cost = currentCostData;
   const now = new Date();
   const dateStr = now.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
 
@@ -887,6 +1211,45 @@ function downloadReport() {
       <div style="font-size:13px;line-height:1.7;color:#4a4a48;margin-bottom:8px;"><strong style="color:#27754b;">Evidence:</strong> ${d.evidence}</div>
       <div style="font-size:13px;line-height:1.7;color:#4a4a48;"><strong style="color:#b8860b;">Gap:</strong> ${d.gap}</div>
     </div>`).join("");
+
+  // Build cost section for report
+  let costSection = "";
+  if (cost) {
+    const efficiencyPct = Math.round((data.total_score / 20) * 100);
+    const wastedCost = cost.totalCost * (1 - data.total_score / 20);
+    const effColor = efficiencyPct >= 65 ? "#27754b" : efficiencyPct >= 45 ? "#b8860b" : "#c0392b";
+    let prepNote = cost.prepMins > 0 ? ` + ${cost.attendees} × ${cost.prepMins} min prep` : "";
+
+    costSection = `
+    <h2 style="font-size:13px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Meeting Cost</h2>
+    <div style="background:#1a1a1a;border-radius:14px;padding:28px;margin-bottom:32px;">
+      <div style="font-size:11px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:12px;">💷 Total Cost</div>
+      <div style="font-size:48px;font-weight:800;color:#fff;line-height:1;font-variant-numeric:tabular-nums;margin-bottom:6px;">${formatCurrency(cost.totalCost)}</div>
+      <div style="font-size:13px;color:#666;margin-bottom:24px;">${cost.attendees} attendees · ${cost.durationMins} min${prepNote} · avg ${cost.salaryLabel}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+        <div style="background:#2a2a2a;border-radius:10px;padding:14px 16px;">
+          <div style="font-size:10px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:6px;">If weekly (annual)</div>
+          <div style="font-size:22px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;">${formatCurrency(cost.annualCostWeekly)}</div>
+          <div style="font-size:11px;color:#666;margin-top:2px;">52 meetings per year</div>
+        </div>
+        <div style="background:#2a2a2a;border-radius:10px;padding:14px 16px;">
+          <div style="font-size:10px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:6px;">Estimated value lost</div>
+          <div style="font-size:22px;font-weight:700;color:#e87c73;font-variant-numeric:tabular-nums;">${formatCurrency(wastedCost)}</div>
+          <div style="font-size:11px;color:#666;margin-top:2px;">based on ${data.total_score}/20 quality score</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid #2a2a2a;padding-top:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:11px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:0.1em;">Cost Efficiency</span>
+          <span style="font-size:12px;font-weight:700;color:${effColor};">${efficiencyPct}%</span>
+        </div>
+        <div style="height:6px;background:#2a2a2a;border-radius:3px;overflow:hidden;">
+          <div style="width:${efficiencyPct}%;height:100%;background:${effColor};border-radius:3px;"></div>
+        </div>
+        <div style="margin-top:10px;font-size:11px;color:#555;line-height:1.5;">Score of ${data.total_score}/20 · ${efficiencyPct}% of the value a well-run meeting of this size could deliver. Includes 1.3× employer overhead multiplier.</div>
+      </div>
+    </div>`;
+  }
 
   const html = `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -911,6 +1274,7 @@ function downloadReport() {
     <div style="font-size:56px;font-weight:800;color:${totalColor};line-height:1;font-variant-numeric:tabular-nums;">${data.total_score}<span style="font-size:24px;font-weight:400;color:#8a8985;">/20</span></div>
     <div style="margin-top:8px;font-size:14px;font-weight:700;color:${totalColor};text-transform:uppercase;letter-spacing:0.15em;">${data.classification}</div>
   </div>
+  ${costSection}
   <h2 style="font-size:13px;font-weight:700;color:#1a1a1a;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;">Dimension Scores</h2>
   <table style="width:100%;border-collapse:collapse;margin-bottom:32px;border:1px solid #e5e4e0;border-radius:10px;overflow:hidden;">
     <thead><tr style="background:#1a1a1a;"><th style="padding:12px 16px;text-align:left;color:#fff;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Dimension</th><th style="padding:12px 16px;text-align:center;color:#fff;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Score</th></tr></thead>
