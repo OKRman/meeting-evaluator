@@ -89,7 +89,7 @@
       gap: 20px;
     }
     .nav-pill {
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -102,7 +102,7 @@
     .nav-back {
       font-size: 12px;
       font-weight: 500;
-      color: rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.78);
       text-decoration: none;
       transition: color 0.2s;
       letter-spacing: 0.02em;
@@ -155,7 +155,7 @@
       background: linear-gradient(90deg, var(--gold), transparent);
     }
     .hero-flag-text {
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.24em;
       text-transform: uppercase;
@@ -178,7 +178,7 @@
     .hero-sub {
       font-size: 16px;
       font-weight: 300;
-      color: rgba(255,255,255,0.42);
+      color: rgba(255,255,255,0.78);
       max-width: 500px;
       margin: 0 auto;
       line-height: 1.72;
@@ -477,7 +477,7 @@
     }
     .results-rule-line { flex: 1; height: 1px; background: var(--parchment-3); }
     .results-rule-txt {
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.2em;
@@ -492,7 +492,7 @@
       margin-bottom: 18px;
     }
     .result-meta-lbl {
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.14em;
@@ -535,11 +535,11 @@
     }
     .sc-inner { position: relative; z-index: 1; }
     .sc-eyebrow {
-      font-size: 10px;
+      font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.28);
+      color: rgba(255,255,255,0.70);
       margin-bottom: 22px;
     }
     .sc-num {
@@ -555,11 +555,11 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 26px;
       font-weight: 300;
-      color: rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.65);
     }
     .sc-class {
       margin-top: 18px;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
       letter-spacing: 0.24em;
       text-transform: uppercase;
@@ -607,7 +607,7 @@
       background: linear-gradient(90deg, var(--gold), transparent 60%);
     }
     .cc-eye {
-      font-size: 10px;
+      font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -625,8 +625,8 @@
       margin-bottom: 6px;
     }
     .cc-ctx {
-      font-size: 12px;
-      color: rgba(255,255,255,0.28);
+      font-size: 14px;
+      color: rgba(255,255,255,0.70);
       margin-bottom: 24px;
       letter-spacing: 0.02em;
     }
@@ -643,11 +643,11 @@
       padding: 16px 18px;
     }
     .ccm-lbl {
-      font-size: 10px;
+      font-size: 13px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.22);
+      color: rgba(255,255,255,0.65);
       margin-bottom: 8px;
     }
     .ccm-val {
@@ -660,8 +660,8 @@
     }
     .ccm-val.lost { color: #f87171; }
     .ccm-sub {
-      font-size: 11px;
-      color: rgba(255,255,255,0.18);
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
       margin-top: 4px;
     }
     .cc-eff {
@@ -675,11 +675,11 @@
       margin-bottom: 9px;
     }
     .cc-eff-lbl {
-      font-size: 10px;
+      font-size: 13px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: rgba(255,255,255,0.25);
+      color: rgba(255,255,255,0.65);
     }
     .cc-eff-pct {
       font-family: 'DM Mono', monospace;
@@ -699,8 +699,8 @@
     }
     .cc-eff-note {
       margin-top: 10px;
-      font-size: 11px;
-      color: rgba(255,255,255,0.18);
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
       line-height: 1.55;
     }
 
@@ -833,7 +833,7 @@
     .eg-p {
       font-size: 14px;
       font-weight: 300;
-      color: rgba(255,255,255,0.38);
+      color: rgba(255,255,255,0.78);
       margin-bottom: 28px;
       line-height: 1.65;
       max-width: 420px;
@@ -862,7 +862,7 @@
       transition: border-color 0.2s;
     }
     .eg-inp:focus { border-color: var(--gold); }
-    .eg-inp::placeholder { color: rgba(255,255,255,0.18); }
+    .eg-inp::placeholder { color: rgba(255,255,255,0.65); }
     .eg-sub {
       padding: 14px 26px;
       font-size: 12px;
@@ -882,7 +882,7 @@
     .eg-sub:disabled { background: var(--ink-4); transform: none; cursor: not-allowed; }
     .eg-note {
       font-size: 11px;
-      color: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.65);
       margin-top: 14px;
     }
 
@@ -1369,7 +1369,7 @@ async function submitEmail() {
   try {
     await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,first_name:name,meeting_score:result?.total_score,meeting_classification:result?.classification,meeting_cost:costData?.total?Math.round(costData.total):null})});
     downloadReport();
-    document.getElementById('emailGate').innerHTML=`<div style="padding:16px;"><div style="font-size:30px;margin-bottom:12px;">✓</div><h3 style="font-family:'Playfair Display',serif;color:var(--white);font-size:22px;margin-bottom:8px;">Report Downloaded</h3><p style="color:rgba(255,255,255,0.38);font-size:14px;line-height:1.65;">Open the HTML file in your browser, then Print → Save as PDF.</p><button onclick="downloadReport()" style="margin-top:18px;padding:12px 28px;background:var(--magenta);color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;text-transform:uppercase;letter-spacing:0.06em;">Download Again</button></div>`;
+    document.getElementById('emailGate').innerHTML=`<div style="padding:16px;"><div style="font-size:30px;margin-bottom:12px;">✓</div><h3 style="font-family:'Playfair Display',serif;color:var(--white);font-size:22px;margin-bottom:8px;">Report Downloaded</h3><p style="color:rgba(255,255,255,0.78);font-size:14px;line-height:1.65;">Open the HTML file in your browser, then Print → Save as PDF.</p><button onclick="downloadReport()" style="margin-top:18px;padding:12px 28px;background:var(--magenta);color:white;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;text-transform:uppercase;letter-spacing:0.06em;">Download Again</button></div>`;
   } catch(e) {
     resEl.innerHTML='<span style="color:#f87171;font-size:13px;">Something went wrong. Please try again.</span>';
     btn.disabled=false; btn.textContent='Get Report';
@@ -1391,50 +1391,50 @@ function downloadReport() {
   if(c){
     const ep=Math.round((d.total_score/20)*100), wc=c.total*(1-d.total_score/20), ek=ep>=65?'#15803d':ep>=45?'#c8820a':'#c0392b';
     const pr=c.p>0?` + ${c.a}× ${c.p}min prep`:'';
-    costSec=`<h2 style="font-size:10px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.16em;margin:28px 0 14px;">Meeting Cost</h2>
+    costSec=`<h2 style="font-size:13px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.12em;margin:28px 0 14px;">Meeting Cost</h2>
     <div style="background:#111;border-radius:14px;padding:28px;margin-bottom:28px;position:relative;overflow:hidden;">
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#c8820a,transparent 60%);"></div>
-      <div style="font-size:10px;font-weight:600;color:#c8820a;text-transform:uppercase;letter-spacing:0.18em;margin-bottom:12px;">↳ Cost Analysis</div>
+      <div style="font-size:13px;font-weight:600;color:#c8820a;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:12px;">↳ Cost Analysis</div>
       <div style="font-family:Georgia,serif;font-size:52px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:6px;">${fmt(c.total)}</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:22px;">${c.a} attendees · ${c.m} min${pr} · avg ${c.sl}</div>
+      <div style="font-size:14px;color:rgba(255,255,255,0.70);margin-bottom:22px;">${c.a} attendees · ${c.m} min${pr} · avg ${c.sl}</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
-        <div style="background:#1e1e1e;border-radius:10px;padding:14px 16px;border:1px solid #333;"><div style="font-size:10px;color:rgba(255,255,255,0.22);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;margin-bottom:7px;">If weekly (annual)</div><div style="font-family:Courier New,monospace;font-size:22px;font-weight:600;color:#fff;">${fmt(c.weekly52)}</div><div style="font-size:11px;color:rgba(255,255,255,0.18);margin-top:4px;">52 meetings/year</div></div>
-        <div style="background:#1e1e1e;border-radius:10px;padding:14px 16px;border:1px solid #333;"><div style="font-size:10px;color:rgba(255,255,255,0.22);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;margin-bottom:7px;">Estimated value lost</div><div style="font-family:Courier New,monospace;font-size:22px;font-weight:600;color:#f87171;">${fmt(wc)}</div><div style="font-size:11px;color:rgba(255,255,255,0.18);margin-top:4px;">based on ${d.total_score}/20</div></div>
+        <div style="background:#1e1e1e;border-radius:10px;padding:14px 16px;border:1px solid #333;"><div style="font-size:13px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:7px;">If weekly (annual)</div><div style="font-family:Courier New,monospace;font-size:22px;font-weight:600;color:#fff;">${fmt(c.weekly52)}</div><div style="font-size:13px;color:rgba(255,255,255,0.65);margin-top:4px;">52 meetings/year</div></div>
+        <div style="background:#1e1e1e;border-radius:10px;padding:14px 16px;border:1px solid #333;"><div style="font-size:13px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:7px;">Estimated value lost</div><div style="font-family:Courier New,monospace;font-size:22px;font-weight:600;color:#f87171;">${fmt(wc)}</div><div style="font-size:13px;color:rgba(255,255,255,0.65);margin-top:4px;">based on ${d.total_score}/20</div></div>
       </div>
-      <div style="border-top:1px solid #2e2e2e;padding-top:16px;"><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="font-size:10px;color:rgba(255,255,255,0.22);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;">Cost Efficiency</span><span style="font-size:13px;font-weight:600;color:${ek};">${ep}%</span></div><div style="height:4px;background:#2e2e2e;border-radius:2px;"><div style="width:${ep}%;height:4px;background:${ek};border-radius:2px;"></div></div><div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.18);line-height:1.55;">Score of ${d.total_score}/20 · Includes 1.3× overhead multiplier</div></div>
+      <div style="border-top:1px solid #2e2e2e;padding-top:16px;"><div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="font-size:13px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;">Cost Efficiency</span><span style="font-size:13px;font-weight:600;color:${ek};">${ep}%</span></div><div style="height:4px;background:#2e2e2e;border-radius:2px;"><div style="width:${ep}%;height:4px;background:${ek};border-radius:2px;"></div></div><div style="margin-top:10px;font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;">Score of ${d.total_score}/20 · Includes 1.3× overhead multiplier</div></div>
     </div>`;
   }
   const html=`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Meeting Report — Earn the Right</title><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"><style>@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.no-print{display:none!important}.pb{page-break-before:always}}body{font-family:'DM Sans',system-ui,sans-serif;color:#0a0a0a;margin:0;padding:0;background:#fff;-webkit-font-smoothing:antialiased}</style></head><body>
   <div style="background:#0a0a0a;padding:40px 48px 36px;border-bottom:3px solid transparent;border-image:linear-gradient(90deg,#c8820a,#b8187a) 1;">
-    <div style="font-size:10px;font-weight:700;color:#c8820a;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:10px;">Meeting Intelligence Report</div>
+    <div style="font-size:13px;font-weight:700;color:#c8820a;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:10px;">Meeting Intelligence Report</div>
     <h1 style="font-family:'Playfair Display',Georgia,serif;font-size:28px;font-weight:800;color:#fff;margin:0;letter-spacing:-0.02em;">Meeting Effectiveness Evaluation</h1>
-    <p style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:8px;">Earn the Right · earntheright.uk · ${date}</p>
+    <p style="font-size:14px;color:rgba(255,255,255,0.70);margin-top:8px;">Earn the Right · earntheright.uk · ${date}</p>
   </div>
   <div style="max-width:680px;margin:0 auto;padding:40px 48px 60px;">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;"><span style="font-size:10px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.14em;">Classification</span><span style="font-size:12px;font-weight:600;color:#0a0a0a;background:#f3f0ea;padding:4px 14px;border-radius:20px;border:1px solid #e8e3d8;">${d.meeting_type}</span></div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;"><span style="font-size:12px;font-weight:700;color:#6a6560;text-transform:uppercase;letter-spacing:0.10em;">Classification</span><span style="font-size:12px;font-weight:600;color:#0a0a0a;background:#f3f0ea;padding:4px 14px;border-radius:20px;border:1px solid #e8e3d8;">${d.meeting_type}</span></div>
     <div style="text-align:center;padding:44px 24px;background:${tb};border-radius:16px;border:2px solid ${tc}30;margin-bottom:28px;">
       <div style="font-family:'Playfair Display',Georgia,serif;font-size:80px;font-weight:900;color:${tc};line-height:1;letter-spacing:-0.04em;">${d.total_score}<span style="font-size:28px;font-weight:400;color:#8a857e;">/20</span></div>
       <div style="margin-top:14px;font-size:11px;font-weight:700;color:${tc};text-transform:uppercase;letter-spacing:0.24em;">${d.classification}</div>
     </div>
     ${costSec}
-    <h2 style="font-size:10px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.16em;margin-bottom:14px;">Dimension Scores</h2>
+    <h2 style="font-size:13px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.10em;margin-bottom:14px;">Dimension Scores</h2>
     <table style="width:100%;border-collapse:collapse;margin-bottom:28px;border:1px solid #e8e3d8;border-radius:12px;overflow:hidden;">
       <thead><tr style="background:#0a0a0a;"><th style="padding:12px 16px;text-align:left;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;">Dimension</th><th style="padding:12px 16px;text-align:center;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;">Score</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
     <div class="pb"></div>
-    <h2 style="font-size:10px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.16em;margin-bottom:14px;">Evidence &amp; Gaps</h2>
+    <h2 style="font-size:13px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.10em;margin-bottom:14px;">Evidence &amp; Gaps</h2>
     ${evs}
     <h2 style="font-size:10px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.16em;margin-top:28px;margin-bottom:14px;">Diagnostic Insights</h2>
-    <div style="padding:18px 20px;background:#faf8f4;border-radius:10px;border-left:3px solid #15803d;margin-bottom:10px;"><div style="font-size:10px;font-weight:700;color:#15803d;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:7px;">★ Top Strength</div><div style="font-size:14px;line-height:1.72;">${d.top_strength}</div></div>
-    <div style="padding:18px 20px;background:#faf8f4;border-radius:10px;border-left:3px solid #b8187a;margin-bottom:10px;"><div style="font-size:10px;font-weight:700;color:#b8187a;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:7px;">◆ Priority Intervention</div><div style="font-size:14px;line-height:1.72;">${d.priority_intervention}</div></div>
-    <div style="padding:18px 20px;background:#faf8f4;border-radius:10px;border-left:3px solid #0a0a0a;margin-bottom:10px;"><div style="font-size:10px;font-weight:700;color:#0a0a0a;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:7px;">◈ Root Cause Diagnosis</div><div style="font-size:14px;line-height:1.72;">${d.root_cause_diagnosis}</div></div>
-    ${d.cultural_note?`<div style="padding:18px 20px;background:#faf8f4;border-radius:10px;border-left:3px solid #8a857e;margin-bottom:10px;"><div style="font-size:10px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:7px;">◎ Cultural Observation</div><div style="font-size:14px;line-height:1.72;">${d.cultural_note}</div></div>`:''}
+    <div style="padding:18px 20px;background:#faf8f4;border-radius:10px;border-left:3px solid #15803d;margin-bottom:10px;"><div style="font-size:12px;font-weight:700;color:#15803d;text-transform:uppercase;letter-spacing:0.10em;margin-bottom:7px;">★ Top Strength</div><div style="font-size:14px;line-height:1.72;">${d.top_strength}</div></div>
+    <div style="padding:18px 20px;background:#faf8f4;border-radius:10px;border-left:3px solid #b8187a;margin-bottom:10px;"><div style="font-size:12px;font-weight:700;color:#b8187a;text-transform:uppercase;letter-spacing:0.10em;margin-bottom:7px;">◆ Priority Intervention</div><div style="font-size:14px;line-height:1.72;">${d.priority_intervention}</div></div>
+    <div style="padding:18px 20px;background:#faf8f4;border-radius:10px;border-left:3px solid #0a0a0a;margin-bottom:10px;"><div style="font-size:12px;font-weight:700;color:#0a0a0a;text-transform:uppercase;letter-spacing:0.10em;margin-bottom:7px;">◈ Root Cause Diagnosis</div><div style="font-size:14px;line-height:1.72;">${d.root_cause_diagnosis}</div></div>
+    ${d.cultural_note?`<div style="padding:18px 20px;background:#faf8f4;border-radius:10px;border-left:3px solid #8a857e;margin-bottom:10px;"><div style="font-size:12px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.10em;margin-bottom:7px;">◎ Cultural Observation</div><div style="font-size:14px;line-height:1.72;">${d.cultural_note}</div></div>`:''}
     <div style="margin-top:32px;padding:20px 24px;background:#f3f0ea;border-radius:10px;border:1px solid #e8e3d8;">
-      <div style="font-size:10px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:12px;">Scoring Reference</div>
-      <div style="font-size:12px;line-height:1.95;color:#5a5550;"><strong style="color:#15803d;">17–20 Exemplary</strong> — Meeting is a competitive advantage<br><strong style="color:#16a34a;">13–16 Effective</strong> — Solid, targeted improvements needed<br><strong style="color:#b45309;">9–12 Mediocre</strong> — Significant time wasted, structural fixes needed<br><strong style="color:#d46920;">5–8 Dysfunctional</strong> — Symptom of deeper team dysfunction<br><strong style="color:#c0392b;">0–4 Toxic</strong> — Cancel and rebuild</div>
+      <div style="font-size:13px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.10em;margin-bottom:12px;">Scoring Reference</div>
+      <div style="font-size:14px;line-height:2.0;color:#4a4540;"><strong style="color:#15803d;">17–20 Exemplary</strong> — Meeting is a competitive advantage<br><strong style="color:#16a34a;">13–16 Effective</strong> — Solid, targeted improvements needed<br><strong style="color:#b45309;">9–12 Mediocre</strong> — Significant time wasted, structural fixes needed<br><strong style="color:#d46920;">5–8 Dysfunctional</strong> — Symptom of deeper team dysfunction<br><strong style="color:#c0392b;">0–4 Toxic</strong> — Cancel and rebuild</div>
     </div>
-    <div style="margin-top:32px;padding-top:20px;border-top:1px solid #e8e3d8;text-align:center;"><div style="font-size:11px;color:#8a857e;line-height:1.75;">Rogelberg · Lencioni · Edmondson · Meyer<br><strong style="color:#0a0a0a;">Bad meetings are a symptom, not the cause.</strong><br><br><a href="https://www.earntheright.uk" style="color:#b8187a;font-weight:700;text-decoration:none;">earntheright.uk</a></div></div>
+    <div style="margin-top:32px;padding-top:20px;border-top:1px solid #e8e3d8;text-align:center;"><div style="font-size:13px;color:#6a6560;line-height:1.8;">Rogelberg · Lencioni · Edmondson · Meyer<br><strong style="color:#0a0a0a;">Bad meetings are a symptom, not the cause.</strong><br><br><a href="https://www.earntheright.uk" style="color:#b8187a;font-weight:700;text-decoration:none;">earntheright.uk</a></div></div>
     <div class="no-print" style="text-align:center;margin-top:28px;"><button onclick="window.print()" style="padding:15px 36px;background:#b8187a;color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;text-transform:uppercase;letter-spacing:0.08em;">Save as PDF</button></div>
   </div></body></html>`;
   const blob=new Blob([html],{type:'text/html'});
