@@ -887,6 +887,253 @@
     }
 
     /* ═══════════════════════════════
+       CRAFT SECTION
+    ═══════════════════════════════ */
+    .craft-section {
+      margin-top: 32px;
+    }
+    .craft-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .craft-title-wrap {}
+    .craft-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .craft-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .craft-confidence {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .craft-confidence.high  { color: var(--green);   border-color: rgba(21,128,61,0.25);  background: var(--green-light); }
+    .craft-confidence.medium { color: var(--amber);  border-color: rgba(180,83,9,0.25);   background: var(--amber-light); }
+    .craft-confidence.low   { color: var(--magenta); border-color: rgba(184,24,122,0.2);  background: var(--magenta-pale); }
+    .craft-confidence-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* CRAFT score card */
+    .craft-score-card {
+      background: var(--ink);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .craft-score-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--magenta));
+    }
+    .craft-score-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 10% 50%, rgba(200,130,10,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .craft-score-num-wrap {
+      position: relative; z-index: 1;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .craft-score-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 64px;
+      font-weight: 900;
+      color: var(--gold-hi);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+    .craft-score-denom {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+    }
+    .craft-score-label {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(255,255,255,0.45);
+      margin-top: 4px;
+    }
+    .craft-score-divider {
+      width: 1px;
+      height: 64px;
+      background: rgba(255,255,255,0.1);
+      flex-shrink: 0;
+      position: relative; z-index: 1;
+    }
+    .craft-score-text {
+      position: relative; z-index: 1;
+      flex: 1;
+    }
+    .craft-headline {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+    .craft-priority-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .craft-priority-text {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+    }
+
+    /* CRAFT principle cards */
+    .craft-principles {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .craft-card {
+      background: var(--white);
+      border: 1px solid var(--parchment-3);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .craft-card-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--parchment);
+      border-bottom: 1px solid var(--parchment-2);
+    }
+    .craft-letter {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: var(--ink);
+      color: var(--white);
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .craft-principle-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      flex: 1;
+    }
+    .craft-principle-score {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .craft-pip-row {
+      display: flex;
+      gap: 4px;
+    }
+    .craft-pip {
+      width: 10px; height: 10px;
+      border-radius: 3px;
+      background: var(--parchment-3);
+    }
+    .craft-pip.filled { background: var(--gold); }
+    .craft-pip.filled.high { background: var(--green); }
+    .craft-pip.filled.mid  { background: var(--gold); }
+    .craft-pip.filled.low  { background: var(--magenta); }
+    .craft-score-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 16px;
+      font-weight: 500;
+      min-width: 28px;
+      text-align: right;
+    }
+    .craft-card-body {
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .craft-field-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 5px;
+    }
+    .craft-field-text {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--slate);
+    }
+    .craft-technique-wrap {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: var(--parchment);
+      border-radius: 8px;
+      border: 1px solid var(--parchment-3);
+    }
+    .craft-technique-icon {
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .craft-technique-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-deep);
+      margin-right: 6px;
+      flex-shrink: 0;
+    }
+    .craft-technique-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    /* ═══════════════════════════════
        CTA
     ═══════════════════════════════ */
     .cta {
@@ -1355,8 +1602,106 @@ function render(d, c) {
 
   if(c) setTimeout(()=>{ const f=document.getElementById('effBar'); if(f) f.style.width=`${ep}%`; },720);
 
+  // Render CRAFT section if present
+  if(d.craft) renderCraft(d.craft);
+
   setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
+
+// ── CRAFT RENDER ──────────────────────────────────────────────────────────────
+function craftScoreColor(s) {
+  return s >= 4 ? 'var(--green)' : s >= 3 ? 'var(--gold)' : 'var(--magenta)';
+}
+function craftPipClass(s, i) {
+  // i is 0-indexed pip position (0-4), s is score 1-5
+  const filled = i < s;
+  if (!filled) return 'craft-pip';
+  return s >= 4 ? 'craft-pip filled high' : s >= 3 ? 'craft-pip filled mid' : 'craft-pip filled low';
+}
+
+function renderCraft(craft) {
+  // Remove any existing CRAFT section
+  const existing = document.getElementById('craftSection');
+  if (existing) existing.remove();
+
+  const confClass = (craft.confidence || 'medium').toLowerCase();
+
+  const principleCards = craft.principles.map(p => {
+    const col = craftScoreColor(p.score);
+    const pips = [0,1,2,3,4].map(i =>
+      `<div class="${craftPipClass(p.score, i)}"></div>`
+    ).join('');
+    return `
+      <div class="craft-card">
+        <div class="craft-card-head">
+          <div class="craft-letter">${p.letter}</div>
+          <div class="craft-principle-name">${p.name}</div>
+          <div class="craft-principle-score">
+            <div class="craft-pip-row">${pips}</div>
+            <div class="craft-score-badge" style="color:${col}">${p.score}/5</div>
+          </div>
+        </div>
+        <div class="craft-card-body">
+          <div>
+            <div class="craft-field-label" style="color:var(--green);">Evidence</div>
+            <div class="craft-field-text">${p.evidence}</div>
+          </div>
+          <div>
+            <div class="craft-field-label" style="color:var(--gold);">Development Opportunity</div>
+            <div class="craft-field-text">${p.gap}</div>
+          </div>
+          <div class="craft-technique-wrap">
+            <span class="craft-technique-icon">◈</span>
+            <span class="craft-technique-label">Try This</span>
+            <span class="craft-technique-name">${p.technique}</span>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  const section = document.createElement('div');
+  section.id = 'craftSection';
+  section.className = 'craft-section';
+  section.innerHTML = `
+    <div class="results-rule">
+      <div class="results-rule-line"></div>
+      <div class="results-rule-txt">CRAFT Behavioural Analysis</div>
+      <div class="results-rule-line"></div>
+    </div>
+    <div class="craft-header">
+      <div class="craft-title-wrap">
+        <div class="craft-eyebrow">Earn the Right · Proprietary Framework</div>
+        <div class="craft-title">CRAFT Coaching Lens</div>
+      </div>
+      <div class="craft-confidence ${confClass}">
+        <div class="craft-confidence-dot"></div>
+        ${craft.confidence} Confidence
+      </div>
+    </div>
+    <div style="font-size:13px;color:var(--slate);margin-bottom:20px;line-height:1.65;font-style:italic;">
+      ${craft.confidence_note}. CRAFT scores are coaching prompts, not performance grades — this is a mirror, not an audit.
+    </div>
+    <div class="craft-score-card">
+      <div class="craft-score-num-wrap">
+        <div class="craft-score-num">${craft.total_score}</div>
+        <div class="craft-score-denom">/25</div>
+        <div class="craft-score-label">CRAFT Score</div>
+      </div>
+      <div class="craft-score-divider"></div>
+      <div class="craft-score-text">
+        <div class="craft-headline">${craft.craft_headline}</div>
+        <div class="craft-priority-label">↳ Highest Leverage Principle</div>
+        <div class="craft-priority-text">${craft.priority_craft_principle}</div>
+      </div>
+    </div>
+    <div class="craft-principles">${principleCards}</div>
+  `;
+
+  // Insert before the email gate
+  const emailGate = document.getElementById('emailGate');
+  emailGate.parentNode.insertBefore(section, emailGate);
+}
+
 
 // ── EMAIL ─────────────────────────────────────────────────────────────────────
 async function submitEmail() {
@@ -1434,6 +1779,57 @@ function downloadReport() {
       <div style="font-size:13px;font-weight:700;color:#8a857e;text-transform:uppercase;letter-spacing:0.10em;margin-bottom:12px;">Scoring Reference</div>
       <div style="font-size:14px;line-height:2.0;color:#4a4540;"><strong style="color:#15803d;">17–20 Exemplary</strong> — Meeting is a competitive advantage<br><strong style="color:#16a34a;">13–16 Effective</strong> — Solid, targeted improvements needed<br><strong style="color:#b45309;">9–12 Mediocre</strong> — Significant time wasted, structural fixes needed<br><strong style="color:#d46920;">5–8 Dysfunctional</strong> — Symptom of deeper team dysfunction<br><strong style="color:#c0392b;">0–4 Toxic</strong> — Cancel and rebuild</div>
     </div>
+    ${d.craft ? `
+    <div style="margin-top:36px;padding-top:28px;border-top:2px solid #e8e3d8;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+        <div>
+          <div style="font-size:10px;font-weight:700;color:#c8820a;text-transform:uppercase;letter-spacing:0.2em;margin-bottom:4px;">Earn the Right · Proprietary Framework</div>
+          <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;font-weight:700;color:#0a0a0a;letter-spacing:-0.02em;">CRAFT Coaching Lens</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:7px 16px;border-radius:20px;background:${d.craft.confidence==='High'?'#dcfce7':d.craft.confidence==='Medium'?'#fef3c7':'#fce8f3'};border:1px solid ${d.craft.confidence==='High'?'rgba(21,128,61,0.25)':d.craft.confidence==='Medium'?'rgba(180,83,9,0.25)':'rgba(184,24,122,0.2)'};">
+          <div style="width:7px;height:7px;border-radius:50%;background:${d.craft.confidence==='High'?'#15803d':d.craft.confidence==='Medium'?'#b45309':'#b8187a'};"></div>
+          <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:${d.craft.confidence==='High'?'#15803d':d.craft.confidence==='Medium'?'#b45309':'#b8187a'};">${d.craft.confidence} Confidence</span>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#5a5550;font-style:italic;line-height:1.65;margin-bottom:20px;">${d.craft.confidence_note}. CRAFT scores are coaching prompts, not performance grades — this is a mirror, not an audit.</p>
+      <div style="background:#0a0a0a;border-radius:14px;padding:24px 28px;margin-bottom:20px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#c8820a,#b8187a);"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 10% 50%,rgba(200,130,10,0.1) 0%,transparent 60%);pointer-events:none;"></div>
+        <div style="position:relative;z-index:1;display:flex;align-items:center;gap:28px;">
+          <div style="text-align:center;flex-shrink:0;">
+            <div style="font-family:'Playfair Display',Georgia,serif;font-size:56px;font-weight:900;color:#e09b14;line-height:1;letter-spacing:-0.03em;">${d.craft.total_score}</div>
+            <div style="font-size:16px;font-weight:300;color:rgba(255,255,255,0.45);">/25</div>
+            <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.14em;color:rgba(255,255,255,0.45);margin-top:4px;">CRAFT Score</div>
+          </div>
+          <div style="width:1px;height:56px;background:rgba(255,255,255,0.1);flex-shrink:0;"></div>
+          <div style="flex:1;">
+            <div style="font-size:14px;font-weight:500;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:10px;">${d.craft.craft_headline}</div>
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:#c8820a;margin-bottom:4px;">↳ Highest Leverage Principle</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.65);line-height:1.6;">${d.craft.priority_craft_principle}</div>
+          </div>
+        </div>
+      </div>
+      ${d.craft.principles.map(p => {
+        const col = p.score >= 4 ? '#15803d' : p.score >= 3 ? '#c8820a' : '#b8187a';
+        const pips = [0,1,2,3,4].map(i => `<div style="width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:4px;background:${i < p.score ? col : '#e8e3d8'};"></div>`).join('');
+        return `<div style="background:#faf8f4;border:1px solid #e8e3d8;border-radius:12px;overflow:hidden;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:#f3f0ea;border-bottom:1px solid #e8e3d8;">
+            <div style="width:34px;height:34px;border-radius:9px;background:#0a0a0a;color:#fff;font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${p.letter}</div>
+            <div style="font-size:13px;font-weight:700;color:#0a0a0a;flex:1;">${p.name}</div>
+            <div style="display:flex;align-items:center;gap:10px;">${pips}<span style="font-size:16px;font-weight:600;color:${col};font-family:'Courier New',monospace;">${p.score}/5</span></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 18px 10px;">
+            <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#15803d;margin-bottom:5px;">Evidence</div><div style="font-size:13px;line-height:1.65;color:#5a5550;">${p.evidence}</div></div>
+            <div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#c8820a;margin-bottom:5px;">Development Opportunity</div><div style="font-size:13px;line-height:1.65;color:#5a5550;">${p.gap}</div></div>
+          </div>
+          <div style="margin:0 18px 14px;display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #e8e3d8;">
+            <span style="font-size:14px;">◈</span>
+            <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#8a5806;margin-right:6px;flex-shrink:0;">Try This</span>
+            <span style="font-size:13px;font-weight:600;color:#0a0a0a;">${p.technique}</span>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>` : ''}
     <div style="margin-top:32px;padding-top:20px;border-top:1px solid #e8e3d8;text-align:center;"><div style="font-size:13px;color:#6a6560;line-height:1.8;">Rogelberg · Lencioni · Edmondson · Meyer<br><strong style="color:#0a0a0a;">Bad meetings are a symptom, not the cause.</strong><br><br><a href="https://www.earntheright.uk" style="color:#b8187a;font-weight:700;text-decoration:none;">earntheright.uk</a></div></div>
     <div class="no-print" style="text-align:center;margin-top:28px;"><button onclick="window.print()" style="padding:15px 36px;background:#b8187a;color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;text-transform:uppercase;letter-spacing:0.08em;">Save as PDF</button></div>
   </div></body></html>`;
