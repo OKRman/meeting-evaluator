@@ -135,9 +135,12 @@ RESPOND IN VALID JSON ONLY. No markdown, no backticks, no preamble.
 
   // ── COACH EMAIL — fire-and-forget, never blocks user response ──────────────
   if (RESEND_API_KEY) {
-    sendCoachEmail(parsed, transcript, agenda, RESEND_API_KEY).catch(e =>
-      console.error("Coach email failed (non-blocking):", e)
-    );
+    console.log("[CoachEmail] RESEND_API_KEY found — dispatching email...");
+    sendCoachEmail(parsed, transcript, agenda, RESEND_API_KEY).catch(e => {
+      console.error("[CoachEmail] FAILED:", e?.message || e);
+    });
+  } else {
+    console.warn("[CoachEmail] RESEND_API_KEY not set — email skipped. Add it to Vercel environment variables.");
   }
 
   // ── PUBLIC RESPONSE — scores only, no evidence/analysis ───────────────────
@@ -338,14 +341,27 @@ async function sendCoachEmail(data, transcript, agenda, apiKey) {
 </table></td></tr></table>
 </body></html>`;
 
-  await fetch("https://api.resend.com/emails", {
+  // Use onboarding@resend.dev as fallback if earntheright.uk domain not yet
+  // DNS-verified in Resend. Once verified, change back to noreply@earntheright.uk
+  const fromAddress = "Meeting Evaluator <onboarding@resend.dev>";
+
+  console.log("[CoachEmail] Sending to peter.kerr@earntheright.uk via Resend...");
+  const resendResp = await fetch("https://api.resend.com/emails", {
     method:  "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
     body: JSON.stringify({
-      from:    "Meeting Evaluator <noreply@earntheright.uk>",
+      from:    fromAddress,
       to:      ["peter.kerr@earntheright.uk"],
       subject: `Coach Report · ${d.classification} · ${d.total_score}/20 · CRAFT ${d.craft?.total_score}/25 · ${d.zone_indicator?.reading} · ${date}`,
       html,
     }),
   });
+
+  if (!resendResp.ok) {
+    const errBody = await resendResp.text().catch(() => "(unreadable)");
+    throw new Error(`Resend API returned ${resendResp.status}: ${errBody}`);
+  }
+
+  const resendData = await resendResp.json().catch(() => ({}));
+  console.log("[CoachEmail] Sent successfully. Resend ID:", resendData?.id || "(unknown)");
 }
