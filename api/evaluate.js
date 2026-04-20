@@ -133,14 +133,19 @@ RESPOND IN VALID JSON ONLY. No markdown, no backticks, no preamble.
     return res.status(500).json({ error: "Failed to evaluate meeting" });
   }
 
-  // ── COACH EMAIL — fire-and-forget, never blocks user response ──────────────
+  // ── COACH EMAIL — awaited before response so Vercel doesn't kill it early ──
+  // Fire-and-forget does NOT work on Vercel serverless: the function freezes
+  // the moment res.json() is called, before any unawaited promises complete.
+  // Awaiting here adds ~300ms to the user response — imperceptible in practice.
   if (RESEND_API_KEY) {
-    console.log("[CoachEmail] RESEND_API_KEY found — dispatching email...");
-    sendCoachEmail(parsed, transcript, agenda, RESEND_API_KEY).catch(e => {
+    try {
+      await sendCoachEmail(parsed, transcript, agenda, RESEND_API_KEY);
+    } catch (e) {
       console.error("[CoachEmail] FAILED:", e?.message || e);
-    });
+      // Don't block the user response on email failure
+    }
   } else {
-    console.warn("[CoachEmail] RESEND_API_KEY not set — email skipped. Add it to Vercel environment variables.");
+    console.warn("[CoachEmail] RESEND_API_KEY not set — add to Vercel env vars.");
   }
 
   // ── PUBLIC RESPONSE — scores only, no evidence/analysis ───────────────────
@@ -341,27 +346,42 @@ async function sendCoachEmail(data, transcript, agenda, apiKey) {
 </table></td></tr></table>
 </body></html>`;
 
-  // Use onboarding@resend.dev as fallback if earntheright.uk domain not yet
-  // DNS-verified in Resend. Once verified, change back to noreply@earntheright.uk
+  // FROM ADDRESS NOTE:
+  // onboarding@resend.dev can only deliver to the email that owns the Resend account.
+  // To send to peter.kerr@earntheright.uk from any sender, earntheright.uk must be
+  // a verified domain in Resend (Domains tab → Add Domain → add two DNS records).
+  // Once verified, change fromAddress to: "Meeting Evaluator <noreply@earntheright.uk>"
+  //
+  // CURRENT: using onboarding@resend.dev — works if peter.kerr@earntheright.uk is
+  // the Resend account email. If not, use the verified domain approach above.
   const fromAddress = "Meeting Evaluator <onboarding@resend.dev>";
 
+  const payload = {
+    from:     fromAddress,
+    to:       ["peter.kerr@earntheright.uk"],
+    reply_to: "peter.kerr@earntheright.uk",
+    subject:  `Coach Report · ${d.classification} · ${d.total_score}/20 · CRAFT ${d.craft?.total_score}/25 · ${d.zone_indicator?.reading} · ${date}`,
+    html,
+  };
+
   console.log("[CoachEmail] Sending to peter.kerr@earntheright.uk via Resend...");
+  console.log("[CoachEmail] From:", fromAddress);
+  console.log("[CoachEmail] Subject:", payload.subject);
+
   const resendResp = await fetch("https://api.resend.com/emails", {
     method:  "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
-    body: JSON.stringify({
-      from:    fromAddress,
-      to:      ["peter.kerr@earntheright.uk"],
-      subject: `Coach Report · ${d.classification} · ${d.total_score}/20 · CRAFT ${d.craft?.total_score}/25 · ${d.zone_indicator?.reading} · ${date}`,
-      html,
-    }),
+    body: JSON.stringify(payload),
   });
 
+  const resendBody = await resendResp.text().catch(() => "(unreadable)");
+  console.log("[CoachEmail] Resend HTTP status:", resendResp.status);
+  console.log("[CoachEmail] Resend response:", resendBody);
+
   if (!resendResp.ok) {
-    const errBody = await resendResp.text().catch(() => "(unreadable)");
-    throw new Error(`Resend API returned ${resendResp.status}: ${errBody}`);
+    throw new Error(`Resend API returned ${resendResp.status}: ${resendBody}`);
   }
 
-  const resendData = await resendResp.json().catch(() => ({}));
+  const resendData = JSON.parse(resendBody).catch ? {} : (JSON.parse(resendBody) || {});
   console.log("[CoachEmail] Sent successfully. Resend ID:", resendData?.id || "(unknown)");
 }
