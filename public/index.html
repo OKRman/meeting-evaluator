@@ -1207,6 +1207,100 @@
     /* ═══════════════════════════════
        RESPONSIVE
     ═══════════════════════════════ */
+    /* ── TOP STRENGTH CARD ── */
+    .top-strength-card {
+      background: var(--green-light);
+      border: 1px solid rgba(21,128,61,0.2);
+      border-left: 3px solid var(--green);
+      border-radius: 14px;
+      padding: 18px 22px;
+      margin-bottom: 20px;
+    }
+    .ts-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--green);
+      margin-bottom: 7px;
+    }
+    .ts-text { font-size: 14px; line-height: 1.72; color: var(--ink); }
+
+    /* ── COACH CTA ── */
+    .coach-cta {
+      background: var(--ink);
+      border-radius: 20px;
+      padding: 40px 36px;
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .coach-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 20% 70%, rgba(200,130,10,0.12) 0%, transparent 55%),
+        radial-gradient(circle at 80% 25%, rgba(184,24,122,0.10) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .coach-cta::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--magenta));
+    }
+    .coach-cta-eye {
+      position: relative; z-index: 1;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+    .coach-cta-h {
+      position: relative; z-index: 1;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 14px;
+    }
+    .coach-cta-p {
+      position: relative; z-index: 1;
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.75;
+      max-width: 480px;
+      margin: 0 auto 28px;
+    }
+    .coach-cta-btn {
+      position: relative; z-index: 1;
+      display: inline-block;
+      padding: 16px 40px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--white);
+      background: var(--magenta);
+      border-radius: 10px;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: all 0.22s;
+      margin-bottom: 16px;
+    }
+    .coach-cta-btn:hover { background: var(--magenta-hi); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(184,24,122,0.38); }
+    .coach-cta-note {
+      position: relative; z-index: 1;
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+    }
+
+
     @media (max-width: 640px) {
       .nav { padding: 0 20px; height: 62px; }
       .nav-logo img { height: 30px; }
@@ -1472,165 +1566,43 @@ function sCls(t){ return t>=17?'sc-exemplary':t>=13?'sc-effective':t>=9?'sc-medi
 function eCol(p){ return p>=65?'#34d399':p>=45?'#e09b14':'#f87171'; }
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
-function render(d, c) {
-  const el = document.getElementById('results');
-  const cls = sCls(d.total_score);
-  const ep  = Math.round((d.total_score/20)*100);
-
-  const gauges = d.dimensions.map((dim,i)=>{
-    const col = dCol(dim.score);
-    return `<div class="dim-row">
-      <div class="dim-meta">
-        <span class="dim-name">${dim.name}</span>
-        <span class="dim-val" style="color:${col}">${dim.score.toFixed(1)}<span class="dim-den">/4</span></span>
-      </div>
-      <div class="g-track"><div class="g-fill" id="g${i}" style="width:0%;background:${col}"></div></div>
-    </div>`;
-  }).join('');
-
-  const evCards = d.dimensions.map(dim=>`
-    <div class="ev-card">
-      <div class="ev-ttl">${dim.name}</div>
-      <div class="ev-txt"><span class="ev-lbl">Evidence:</span> ${dim.evidence}</div>
-      <div class="ev-gap"><span class="ev-gap-lbl">Gap:</span> ${dim.gap}</div>
-    </div>`).join('');
-
-  let costBlock = '';
-  if (c) {
-    const wasted = c.total*(1-d.total_score/20);
-    const ec = eCol(ep);
-    const prep = c.p>0?` + ${c.a}× ${c.p}min prep`:'';
-    costBlock = `<div class="cost-card">
-      <div class="cc-eye">↳ Meeting Cost Analysis</div>
-      <div class="cc-amount">${fmt(c.total)}</div>
-      <div class="cc-ctx">${c.a} attendees · ${c.m} min${prep} · avg ${c.sl}</div>
-      <div class="cc-grid">
-        <div class="cc-metric">
-          <div class="ccm-lbl">If weekly (annual)</div>
-          <div class="ccm-val">${fmt(c.weekly52)}</div>
-          <div class="ccm-sub">52 meetings/year</div>
-        </div>
-        <div class="cc-metric">
-          <div class="ccm-lbl">Estimated value lost</div>
-          <div class="ccm-val lost">${fmt(wasted)}</div>
-          <div class="ccm-sub">based on ${d.total_score}/20 score</div>
-        </div>
-      </div>
-      <div class="cc-eff">
-        <div class="cc-eff-head">
-          <span class="cc-eff-lbl">Cost Efficiency</span>
-          <span class="cc-eff-pct" style="color:${ec}">${ep}%</span>
-        </div>
-        <div class="cc-eff-track"><div class="cc-eff-bar" id="effBar" style="width:0%;background:${ec}"></div></div>
-        <div class="cc-eff-note">Score of ${d.total_score}/20 · ${ep}% of the value a well-run meeting of this size could deliver · Includes 1.3× overhead multiplier</div>
-      </div>
-    </div>`;
-  }
-
-  el.innerHTML = `
-    <div class="results-rule">
-      <div class="results-rule-line"></div>
-      <div class="results-rule-txt">Your Results</div>
-      <div class="results-rule-line"></div>
-    </div>
-    <div class="result-meta">
-      <span class="result-meta-lbl">Meeting Type</span>
-      <span class="result-meta-val">${d.meeting_type}</span>
-    </div>
-    <div class="score-card ${cls}">
-      <div class="sc-inner">
-        <div class="sc-eyebrow">Overall Effectiveness Score</div>
-        <div class="sc-num" id="scNum">0<span class="sc-denom">/20</span></div>
-        <div class="sc-class">${d.classification}</div>
-        <div class="sc-bar-wrap"><div class="sc-bar-fill" id="scBar" style="width:0%"></div></div>
-      </div>
-    </div>
-    ${costBlock}
-    <div class="dims-card">
-      <div class="sec-title">Dimension Breakdown</div>
-      ${gauges}
-    </div>
-    <div class="blk-title">Evidence &amp; Gaps</div>
-    ${evCards}
-    <div class="blk-title">Diagnostic Insights</div>
-    <div class="ins-card" style="border-color:#15803d;">
-      <div class="ins-ttl" style="color:#15803d;">★ Top Strength</div>
-      <div class="ins-txt">${d.top_strength}</div>
-    </div>
-    <div class="ins-card" style="border-color:var(--magenta);">
-      <div class="ins-ttl" style="color:var(--magenta);">◆ Priority Intervention</div>
-      <div class="ins-txt">${d.priority_intervention}</div>
-    </div>
-    <div class="ins-card" style="border-color:var(--ink);">
-      <div class="ins-ttl" style="color:var(--ink);">◈ Root Cause Diagnosis</div>
-      <div class="ins-txt">${d.root_cause_diagnosis}</div>
-    </div>
-    ${d.cultural_note?`<div class="ins-card" style="border-color:var(--slate-light);">
-      <div class="ins-ttl" style="color:var(--slate-light);">◎ Cultural Observation</div>
-      <div class="ins-txt">${d.cultural_note}</div>
-    </div>`:''}
-    <div class="email-gate" id="emailGate">
-      <h3 class="eg-h3">Download Your Full Report</h3>
-      <p class="eg-p">Enter your email to receive a PDF-ready report with your scores, cost analysis, and diagnostic insights.</p>
-      <div class="eg-form">
-        <div class="eg-wrap"><input type="text" class="eg-inp" id="egName" placeholder="First name (optional)"></div>
-        <div class="eg-wrap"><input type="email" class="eg-inp" id="egEmail" placeholder="Work email" required></div>
-        <button class="eg-sub" id="egBtn" onclick="submitEmail()">Get Report</button>
-      </div>
-      <div class="eg-note">No spam. Just your report and occasional insights on organisational health.</div>
-      <div id="egResult" style="margin-top:12px;"></div>
-    </div>
-    <div class="cta">
-      <div class="cta-eye">Beyond the Score</div>
-      <div class="cta-h">Bad meetings are a symptom,<br>not the cause.</div>
-      <div class="cta-p">This evaluation identifies what's visible. The real transformation comes from addressing the organisational health beneath — building trust, embracing productive conflict, and developing leaders who model the right behaviours.</div>
-      <a href="https://www.earntheright.uk/set-up-a-meeting" class="cta-a">Set Up a Conversation</a>
-    </div>
-  `;
-
-  el.style.display='block';
-
-  // Animate score counter
-  setTimeout(()=>{
-    let n=0; const t=d.total_score, el2=document.getElementById('scNum');
-    const step=()=>{ n+=0.4; if(n>=t){el2.innerHTML=`${t}<span class="sc-denom">/20</span>`;return;} el2.innerHTML=`${Math.round(n*10)/10}<span class="sc-denom">/20</span>`; requestAnimationFrame(step); };
-    requestAnimationFrame(step);
-    setTimeout(()=>{ const b=document.getElementById('scBar'); if(b) b.style.width=`${(t/20)*100}%`; },200);
-  },280);
-
-  d.dimensions.forEach((_,i)=>setTimeout(()=>{ const g=document.getElementById(`g${i}`); if(g) g.style.width=`${(d.dimensions[i].score/4)*100}%`; },380+i*115));
-
-  if(c) setTimeout(()=>{ const f=document.getElementById('effBar'); if(f) f.style.width=`${ep}%`; },720);
-
-  // Render CRAFT section if present
-  if(d.craft) renderCraft(d.craft);
-
-  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),100);
+// ── RENDER — SCORES ONLY (full analysis sent to coach by email) ───────────────
+function dimColor(score) {
+  return score >= 3.5 ? 'var(--green)' : score >= 2.5 ? '#c8820a' : score >= 1.5 ? '#b45309' : 'var(--red)';
 }
-
-// ── CRAFT RENDER ──────────────────────────────────────────────────────────────
+function scoreClass(total) {
+  return total >= 17 ? 'sc-exemplary' : total >= 13 ? 'sc-effective' : total >= 9 ? 'sc-mediocre' : total >= 5 ? 'sc-dysfunctional' : 'sc-toxic';
+}
 function craftScoreColor(s) {
   return s >= 4 ? 'var(--green)' : s >= 3 ? 'var(--gold)' : 'var(--magenta)';
 }
 function craftPipClass(s, i) {
-  // i is 0-indexed pip position (0-4), s is score 1-5
   const filled = i < s;
   if (!filled) return 'craft-pip';
   return s >= 4 ? 'craft-pip filled high' : s >= 3 ? 'craft-pip filled mid' : 'craft-pip filled low';
 }
 
-function renderCraft(craft) {
-  // Remove any existing CRAFT section
-  const existing = document.getElementById('craftSection');
-  if (existing) existing.remove();
+function render(d, c) {
+  const el  = document.getElementById('results');
+  const cls = scoreClass(d.total_score);
 
-  const confClass = (craft.confidence || 'medium').toLowerCase();
+  // Dimension gauges — scores only, no evidence/gap
+  const gauges = (d.dimensions || []).map((dim, i) => {
+    const col = dimColor(dim.score);
+    return `
+      <div class="dim-row">
+        <div class="dim-meta">
+          <span class="dim-name">${dim.name}</span>
+          <span class="dim-val" style="color:${col}">${dim.score.toFixed ? dim.score.toFixed(1) : dim.score}<span class="dim-den">/4</span></span>
+        </div>
+        <div class="g-track"><div class="g-fill" id="g${i}" style="width:0%;background:${col}"></div></div>
+      </div>`;
+  }).join('');
 
-  const principleCards = craft.principles.map(p => {
-    const col = craftScoreColor(p.score);
-    const pips = [0,1,2,3,4].map(i =>
-      `<div class="${craftPipClass(p.score, i)}"></div>`
-    ).join('');
+  // CRAFT pips — scores only
+  const craftCards = (d.craft?.principles || []).map(p => {
+    const col  = craftScoreColor(p.score);
+    const pips = [0,1,2,3,4].map(i => `<div class="${craftPipClass(p.score,i)}"></div>`).join('');
     return `
       <div class="craft-card">
         <div class="craft-card-head">
@@ -1641,65 +1613,135 @@ function renderCraft(craft) {
             <div class="craft-score-badge" style="color:${col}">${p.score}/5</div>
           </div>
         </div>
-        <div class="craft-card-body">
-          <div>
-            <div class="craft-field-label" style="color:var(--green);">Evidence</div>
-            <div class="craft-field-text">${p.evidence}</div>
-          </div>
-          <div>
-            <div class="craft-field-label" style="color:var(--gold);">Development Opportunity</div>
-            <div class="craft-field-text">${p.gap}</div>
-          </div>
-          <div class="craft-technique-wrap">
-            <span class="craft-technique-icon">◈</span>
-            <span class="craft-technique-label">Try This</span>
-            <span class="craft-technique-name">${p.technique}</span>
-          </div>
-        </div>
       </div>`;
   }).join('');
 
-  const section = document.createElement('div');
-  section.id = 'craftSection';
-  section.className = 'craft-section';
-  section.innerHTML = `
+  // Zone reading
+  const zoneCol = d.zone_indicator?.reading?.includes('Learning') ? 'var(--green)'
+                : d.zone_indicator?.reading?.includes('Mixed')    ? 'var(--amber)' : 'var(--red)';
+
+  el.innerHTML = `
     <div class="results-rule">
       <div class="results-rule-line"></div>
-      <div class="results-rule-txt">CRAFT Behavioural Analysis</div>
+      <div class="results-rule-txt">Your Scores</div>
       <div class="results-rule-line"></div>
     </div>
-    <div class="craft-header">
-      <div class="craft-title-wrap">
-        <div class="craft-eyebrow">Earn the Right · Proprietary Framework</div>
-        <div class="craft-title">CRAFT Coaching Lens</div>
-      </div>
-      <div class="craft-confidence ${confClass}">
-        <div class="craft-confidence-dot"></div>
-        ${craft.confidence} Confidence
+
+    <div class="result-meta">
+      <span class="result-meta-lbl">Meeting Type</span>
+      <span class="result-meta-val">${d.meeting_type}</span>
+    </div>
+
+    <div class="score-card ${cls}">
+      <div class="sc-inner">
+        <div class="sc-eyebrow">Overall Effectiveness Score</div>
+        <div class="sc-num" id="scNum">0<span class="sc-denom">/20</span></div>
+        <div class="sc-class">${d.classification}</div>
+        <div class="sc-bar-wrap"><div class="sc-bar-fill" id="scBar" style="width:0%"></div></div>
       </div>
     </div>
-    <div style="font-size:13px;color:var(--slate);margin-bottom:20px;line-height:1.65;font-style:italic;">
-      ${craft.confidence_note}. CRAFT scores are coaching prompts, not performance grades — this is a mirror, not an audit.
+
+    <div class="dims-card">
+      <div class="sec-title">Dimension Breakdown</div>
+      ${gauges}
     </div>
-    <div class="craft-score-card">
+
+    <div class="results-rule" style="margin-top:24px;">
+      <div class="results-rule-line"></div>
+      <div class="results-rule-txt">CRAFT Behavioural Scores</div>
+      <div class="results-rule-line"></div>
+    </div>
+
+    <div class="craft-score-card" style="margin-bottom:14px;">
       <div class="craft-score-num-wrap">
-        <div class="craft-score-num">${craft.total_score}</div>
+        <div class="craft-score-num">${d.craft?.total_score || '—'}</div>
         <div class="craft-score-denom">/25</div>
         <div class="craft-score-label">CRAFT Score</div>
       </div>
       <div class="craft-score-divider"></div>
       <div class="craft-score-text">
-        <div class="craft-headline">${craft.craft_headline}</div>
-        <div class="craft-priority-label">↳ Highest Leverage Principle</div>
-        <div class="craft-priority-text">${craft.priority_craft_principle}</div>
+        <div class="craft-priority-label">CRAFT measures five behavioural disciplines</div>
+        <div class="craft-priority-text" style="margin-top:6px;">Clarity · Responsibility · Action · Focus · Tempo</div>
+        <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,0.45);">${d.craft?.confidence || ''} confidence · based on transcript depth</div>
       </div>
     </div>
-    <div class="craft-principles">${principleCards}</div>
+
+    <div class="craft-principles" style="margin-bottom:14px;">${craftCards}</div>
+
+    <div class="results-rule" style="margin-top:24px;">
+      <div class="results-rule-line"></div>
+      <div class="results-rule-txt">Zone Indicator</div>
+      <div class="results-rule-line"></div>
+    </div>
+
+    <div class="dims-card" style="margin-bottom:32px;">
+      <div class="sec-title">Learning vs Performing Zone</div>
+      <div style="display:flex;align-items:center;gap:14px;padding:16px 0 8px;">
+        <div style="width:14px;height:14px;border-radius:50%;background:${zoneCol};flex-shrink:0;"></div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:${zoneCol};font-family:'Playfair Display',serif;">${d.zone_indicator?.reading || '—'}</div>
+          <div style="font-size:13px;color:var(--slate);margin-top:3px;">${d.zone_indicator?.dominant_pattern || ''}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="top-strength-card">
+      <div class="ts-label">★ Top Strength</div>
+      <div class="ts-text">${d.top_strength}</div>
+    </div>
+
+    <div class="coach-cta">
+      <div class="coach-cta-eye">Unlock the Full Picture</div>
+      <div class="coach-cta-h">Your scores tell you where.<br>A coach tells you why — and what to do.</div>
+      <div class="coach-cta-p">The full report — including all evidence, diagnostic gaps, CRAFT technique recommendations, zone analysis, and individual participant coaching notes — is reserved for a coaching conversation. It's already been generated. Book a call to explore it.</div>
+      <a href="https://www.earntheright.uk/set-up-a-meeting" class="coach-cta-btn">Book a Coaching Conversation</a>
+      <div class="coach-cta-note">Or enter your email below to receive your score summary</div>
+    </div>
+
+    <div class="email-gate" id="emailGate">
+      <h3 class="eg-h3">Get Your Score Summary</h3>
+      <p class="eg-p">Enter your email and we'll send you your scores with a brief summary. No spam.</p>
+      <div class="eg-form">
+        <div class="eg-wrap"><input type="text" class="eg-inp" id="egName" placeholder="First name (optional)"></div>
+        <div class="eg-wrap"><input type="email" class="eg-inp" id="egEmail" placeholder="Work email" required></div>
+        <button class="eg-sub" id="egBtn" onclick="submitEmail()">Send Summary</button>
+      </div>
+      <div class="eg-note">No spam. We'll also let you know about future insights on organisational health.</div>
+      <div id="egResult" style="margin-top:12px;"></div>
+    </div>
+
+    <div class="cta">
+      <div class="cta-eye">Beyond the Score</div>
+      <div class="cta-h">Bad meetings are a symptom,<br>not the cause.</div>
+      <div class="cta-p">The real transformation comes from addressing the organisational health beneath the numbers — building trust, embracing productive conflict, and developing leaders who model the right behaviours.</div>
+      <a href="https://www.earntheright.uk/set-up-a-meeting" class="cta-a">Set Up a Conversation</a>
+    </div>
   `;
 
-  // Insert before the email gate
-  const emailGate = document.getElementById('emailGate');
-  emailGate.parentNode.insertBefore(section, emailGate);
+  el.style.display = 'block';
+
+  // Animate score counter
+  setTimeout(() => {
+    let n = 0; const t = d.total_score;
+    const el2 = document.getElementById('scNum');
+    const step = () => {
+      n += 0.4;
+      if (n >= t) { el2.innerHTML = `${t}<span class="sc-denom">/20</span>`; return; }
+      el2.innerHTML = `${Math.round(n*10)/10}<span class="sc-denom">/20</span>`;
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+    setTimeout(() => { const b = document.getElementById('scBar'); if(b) b.style.width = `${(t/20)*100}%`; }, 200);
+  }, 280);
+
+  (d.dimensions || []).forEach((_, i) => {
+    setTimeout(() => {
+      const g = document.getElementById(`g${i}`);
+      if (g) g.style.width = `${((d.dimensions[i].score)/4)*100}%`;
+    }, 380 + i * 115);
+  });
+
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
 }
 
 
