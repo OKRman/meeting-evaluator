@@ -113,6 +113,7 @@ RESPOND IN VALID JSON ONLY. No markdown, no backticks, no preamble.
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 5000,
+        temperature: 0,
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: userMsg }],
       }),
