@@ -222,6 +222,30 @@ async function sendCoachEmail(data, transcript, agenda, apiKey, costData, meetin
       }).join("")
     : `<tr><td colspan="3" style="padding:10px 14px;color:#8a857e;font-size:13px;">Participant names not detected in transcript</td></tr>`;
 
+  const costEmailSec = costData ? `
+    <div style="margin-bottom:24px;">
+      <div style="font-size:10px;font-weight:700;color:#c8820a;text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px;">Meeting Investment &amp; Return</div>
+      <div style="background:#111;border-radius:12px;padding:22px 26px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#c8820a,transparent 60%);"></div>
+        <div style="font-family:Georgia,serif;font-size:44px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px;">\xa3${Math.round(costData.total).toLocaleString('en-GB')}</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:16px;">${costData.a} attendees &middot; ${costData.m} min${costData.p > 0 ? ` + ${costData.p}min prep` : ''} &middot; avg ${costData.sl}</div>
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
+          <tr>
+            <td width="48%" style="background:#1e1e1e;border-radius:8px;padding:12px 14px;border:1px solid #333;">
+              <div style="font-size:11px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;">If weekly (annual)</div>
+              <div style="font-family:'Courier New',monospace;font-size:20px;font-weight:600;color:#fff;">\xa3${Math.round(costData.weekly52).toLocaleString('en-GB')}</div>
+            </td>
+            <td width="4%"></td>
+            <td width="48%" style="background:#1e1e1e;border-radius:8px;padding:12px 14px;border:1px solid #333;">
+              <div style="font-size:11px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;">Estimated value lost</div>
+              <div style="font-family:'Courier New',monospace;font-size:20px;font-weight:600;color:#f87171;">\xa3${Math.round(costData.total * (1 - d.total_score/20)).toLocaleString('en-GB')}</div>
+            </td>
+          </tr>
+        </table>
+        <div style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6;">Score of ${d.total_score}/20 &middot; ${Math.round((1 - d.total_score/20)*100)}% of meeting cost is unrealised potential &middot; 1.3&times; overhead multiplier applied</div>
+      </div>
+    </div>` : '';
+
   const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
 <body style="margin:0;padding:0;background:#f3f0ea;font-family:Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="padding:32px 0;background:#f3f0ea;">
@@ -241,29 +265,7 @@ async function sendCoachEmail(data, transcript, agenda, apiKey, costData, meetin
     </div>
 
 
-    \${costData ? `
-    <div style="margin-bottom:24px;">
-      <div style="font-size:10px;font-weight:700;color:#c8820a;text-transform:uppercase;letter-spacing:0.18em;margin-bottom:10px;">Meeting Investment &amp; Return</div>
-      <div style="background:#111;border-radius:12px;padding:22px 26px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#c8820a,transparent 60%);"></div>
-        <div style="font-family:Georgia,serif;font-size:44px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.02em;margin-bottom:4px;">\xa3\${Math.round(costData.total).toLocaleString('en-GB')}</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:16px;">\${costData.a} attendees &middot; \${costData.m} min\${costData.p > 0 ? ` + \${costData.p}min prep` : ''} &middot; avg \${costData.sl}</div>
-        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
-          <tr>
-            <td width="48%" style="background:#1e1e1e;border-radius:8px;padding:12px 14px;border:1px solid #333;">
-              <div style="font-size:11px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;">If weekly (annual)</div>
-              <div style="font-family:'Courier New',monospace;font-size:20px;font-weight:600;color:#fff;">\xa3\${Math.round(costData.weekly52).toLocaleString('en-GB')}</div>
-            </td>
-            <td width="4%"></td>
-            <td width="48%" style="background:#1e1e1e;border-radius:8px;padding:12px 14px;border:1px solid #333;">
-              <div style="font-size:11px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;">Estimated value lost</div>
-              <div style="font-family:'Courier New',monospace;font-size:20px;font-weight:600;color:#f87171;">\xa3\${Math.round(costData.total * (1 - d.total_score/20)).toLocaleString('en-GB')}</div>
-            </td>
-          </tr>
-        </table>
-        <div style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6;">Score of \${d.total_score}/20 &middot; \${Math.round((1 - d.total_score/20)*100)}% of meeting cost is unrealised potential &middot; 1.3&times; overhead multiplier applied</div>
-      </div>
-    </div>` : ''}
+    ${costEmailSec}
 
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e8e3d8;border-radius:10px;overflow:hidden;margin-bottom:24px;">
       <thead><tr style="background:#0a0a0a;">
