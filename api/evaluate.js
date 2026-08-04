@@ -114,7 +114,6 @@ const userMsg = `MEETING TYPE (as selected by user): ${meetingTypeLabel}\nMEETIN
       body: JSON.stringify({
         model: "claude-sonnet-5",
         max_tokens: 8000,
-        temperature: 0,
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: userMsg }],
       }),
