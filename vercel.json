@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/evaluate.js": {
+      "maxDuration": 120
+    } 
+  },
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
