@@ -112,7 +112,7 @@ const userMsg = `MEETING TYPE (as selected by user): ${meetingTypeLabel}\nMEETIN
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-5",
         max_tokens: 5000,
         temperature: 0,
         system: SYSTEM_PROMPT,
