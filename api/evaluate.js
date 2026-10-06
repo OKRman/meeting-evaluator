@@ -140,7 +140,7 @@ const userMsg = `MEETING TYPE (as selected by user): ${meetingTypeLabel}\nMEETIN
   // Awaiting here adds ~300ms to the user response — imperceptible in practice.
   if (RESEND_API_KEY) {
     try {
-      await sendCoachEmail(parsed, transcript, agenda, RESEND_API_KEY, costData, meetingType);
+      await sendCoachEmail(parsed, agenda, RESEND_API_KEY, costData, meetingType);
     } catch (e) {
       console.error("[CoachEmail] FAILED:", e?.message || e);
       // Don't block the user response on email failure
@@ -176,7 +176,7 @@ const userMsg = `MEETING TYPE (as selected by user): ${meetingTypeLabel}\nMEETIN
 }
 
 // ── COACH EMAIL ────────────────────────────────────────────────────────────────
-async function sendCoachEmail(data, transcript, agenda, apiKey, costData, meetingType) {
+async function sendCoachEmail(data, agenda, apiKey, costData, meetingType) {
   const d    = data;
   const date = new Date().toLocaleDateString("en-GB", { day:"numeric", month:"long", year:"numeric" });
   const time = new Date().toLocaleTimeString("en-GB", { hour:"2-digit", minute:"2-digit" });
@@ -210,16 +210,6 @@ async function sendCoachEmail(data, transcript, agenda, apiKey, costData, meetin
       <td style="padding:10px 14px;font-size:13px;color:#7d1054;font-weight:600;border-bottom:1px solid #e8e3d8;">${p.technique||"—"}</td>
     </tr>`).join("");
 
-  const participantRows = (d.zone_indicator?.participant_zone_map || []).length
-    ? d.zone_indicator.participant_zone_map.map(pm => {
-        const c = pm.zone==="Learning"?"#15803d":pm.zone==="Mixed"?"#b45309":"#c0392b";
-        return `<tr>
-          <td style="padding:8px 14px;font-size:13px;border-bottom:1px solid #e8e3d8;">${pm.participant}</td>
-          <td style="padding:8px 14px;border-bottom:1px solid #e8e3d8;"><span style="color:${c};font-weight:700;font-size:13px;">${pm.zone}</span></td>
-          <td style="padding:8px 14px;font-size:13px;color:#5a5550;border-bottom:1px solid #e8e3d8;">${pm.note||"—"}</td>
-        </tr>`;
-      }).join("")
-    : `<tr><td colspan="3" style="padding:10px 14px;color:#8a857e;font-size:13px;">Participant names not detected in transcript</td></tr>`;
 
   const costEmailSec = costData ? `
     <div style="margin-bottom:24px;">
@@ -351,17 +341,7 @@ async function sendCoachEmail(data, transcript, agenda, apiKey, costData, meetin
       <div style="font-size:10px;font-weight:700;color:#b8187a;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;">↳ Zone Shift Prompt</div>
       <div style="font-size:13px;line-height:1.65;">${d.zone_indicator?.zone_shift_prompt||"—"}</div>
     </div>
-    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e8e3d8;border-radius:10px;overflow:hidden;margin-bottom:24px;">
-      <thead><tr style="background:#0a0a0a;">
-        <th style="padding:9px 14px;text-align:left;color:#fff;font-size:11px;font-weight:700;letter-spacing:0.1em;">Participant</th>
-        <th style="padding:9px 14px;text-align:left;color:#fff;font-size:11px;font-weight:700;letter-spacing:0.1em;">Zone</th>
-        <th style="padding:9px 14px;text-align:left;color:#fff;font-size:11px;font-weight:700;letter-spacing:0.1em;">Note</th>
-      </tr></thead>
-      <tbody>${participantRows}</tbody>
-    </table>
 
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:#8a857e;margin-bottom:8px;">Transcript Excerpt (first 600 chars)</div>
-    <div style="padding:14px;background:#f3f0ea;border-radius:8px;font-family:'Courier New',monospace;font-size:12px;color:#5a5550;line-height:1.65;border:1px solid #e8e3d8;margin-bottom:24px;">${(transcript||"").slice(0,600).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}${(transcript||"").length>600?"…":""}</div>
   </td></tr>
 
   <tr><td style="padding:18px 36px;background:#f3f0ea;border-top:1px solid #e8e3d8;text-align:center;">
